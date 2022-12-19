@@ -1,0 +1,19 @@
+{
+  "countDoneTasks" : 0,
+  "countAllTasks" : 0,
+  "tasksList" : [ {
+    "text" : "do this",
+    "doBefore" : [ 2022, 3, 30 ],
+    "doneDate" : null,
+    "number" : 1,
+    "done" : false,
+    "onTime" : false
+  }, {
+    "text" : "and this",
+    "doBefore" : [ 2022, 12, 30 ],
+    "doneDate" : null,
+    "number" : 2,
+    "done" : false,
+    "onTime" : false
+  } ]
+}
