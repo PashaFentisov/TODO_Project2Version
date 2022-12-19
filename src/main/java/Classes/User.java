@@ -51,6 +51,19 @@ public class User{                                    //TODO можливо тр
         this.countAllTasks = user.getCountAllTasks();
         Task.setCountOfTasks(user.getCountAllTasks());
     }
+    public void showListTasks(){
+        taskShower.showListTasks(this);
+    }
+    public void showTasksInFile(){
+        taskShower.showTasksInFile(this);
+    }
+
+
+
+
+
+
+
 
     public int getCountDoneTasks() {
         return countDoneTasks;
@@ -66,6 +79,10 @@ public class User{                                    //TODO можливо тр
 
     public void setCountDoneTasks(int countDoneTasks) {
         this.countDoneTasks = countDoneTasks;
+    }
+
+    public void setTasksList(LinkedList<Task> tasksList) {
+        this.tasksList = tasksList;
     }
 
     public void setCountAllTasks(int countAllTasks) {
