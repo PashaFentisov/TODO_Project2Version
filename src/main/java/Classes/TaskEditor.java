@@ -2,7 +2,6 @@ package Classes;
 
 import Interfaces.ITaskEditor;
 import ServiceClasses.OwnReader;
-
 import java.time.LocalDate;
 import java.util.LinkedList;
 
@@ -14,8 +13,10 @@ public class TaskEditor implements ITaskEditor {
     public TaskEditor(OwnReader reader) {
         this.reader = reader;
     }
+    public TaskEditor() {
+    }
 
-    public void fillList(Task task, LinkedList<Task> tasksList) {
+    public void fillList(User user, Task task, LinkedList<Task> tasksList) {
         String tempStr;
         int day;
         int month;
@@ -44,6 +45,7 @@ public class TaskEditor implements ITaskEditor {
                 task.setDoBefore(task.getDoBefore().withMonth(LocalDate.now().getMonthValue()));
             }
             tasksList.add(task);
+            user.setCountAllTasks(task.getNumber());
         }
 //        addTasksToFile();
     }

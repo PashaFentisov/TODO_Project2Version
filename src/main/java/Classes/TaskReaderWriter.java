@@ -2,6 +2,7 @@ package Classes;
 
 import Interfaces.ITaskReaderWriter;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
@@ -10,6 +11,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class TaskReaderWriter implements ITaskReaderWriter {
+
+    public TaskReaderWriter() {
+    }
 
     @Override
     public void writeUserToFile(User user) {
@@ -30,7 +34,7 @@ public class TaskReaderWriter implements ITaskReaderWriter {
     @Override
     public User readUserFromFile() {
         User user;
-        ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
         try {
            user = mapper.readValue(User.file, User.class);
         } catch (IOException e) {

@@ -1,9 +1,10 @@
 package Interfaces;
 
 import Classes.Task;
+import Classes.User;
 
 import java.util.LinkedList;
 
 public interface ITaskEditor {
-    void fillList(Task task, LinkedList<Task> tasksList);
+    void fillList(User user, Task task, LinkedList<Task> tasksList);
 }

@@ -18,9 +18,9 @@ public class User{                                    //TODO можливо тр
     static File file = new File("D:\\idea project\\TODO_Project2Version\\src\\main\\resources\\user.json");
     private LinkedList<Task> tasksList = new LinkedList<>();
     Task task;
-    ITaskEditor taskEditor;
-    ITaskShower taskShower;
-    ITaskReaderWriter taskReaderWriter;
+    private ITaskEditor taskEditor;
+    private ITaskShower taskShower;
+    private ITaskReaderWriter taskReaderWriter;
 
     public User() {
     }
@@ -29,24 +29,32 @@ public class User{                                    //TODO можливо тр
         this.taskShower = taskShower;
         this.taskReaderWriter = taskReaderWriter;
         this.taskEditor = taskEditor;
+        try{
+            readUserFromFile();
+        }catch(Exception e){
+            System.out.println("У вас поки немає тасків");
+        }
     }
 
     public void fillList() {
-        taskEditor.fillList(task, tasksList);
+        taskEditor.fillList(this, task, tasksList);
     }
 
     public void writeUserToFile() {
         taskReaderWriter.writeUserToFile(this);
     }
 
-    public User readUserFromFile() {
-        return taskReaderWriter.readUserFromFile();
+    public void readUserFromFile() {
+        User user = taskReaderWriter.readUserFromFile();
+        this.tasksList = user.getTasksList();
+        this.countDoneTasks = user.getCountDoneTasks();
+        this.countAllTasks = user.getCountAllTasks();
+        Task.setCountOfTasks(user.getCountAllTasks());
     }
 
     public int getCountDoneTasks() {
         return countDoneTasks;
     }
-
 
     public int getCountAllTasks() {
         return countAllTasks;
@@ -54,6 +62,14 @@ public class User{                                    //TODO можливо тр
 
     public LinkedList<Task> getTasksList() {
         return tasksList;
+    }
+
+    public void setCountDoneTasks(int countDoneTasks) {
+        this.countDoneTasks = countDoneTasks;
+    }
+
+    public void setCountAllTasks(int countAllTasks) {
+        this.countAllTasks = countAllTasks;
     }
 
     @Override

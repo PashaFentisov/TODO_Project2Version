@@ -24,27 +24,6 @@ public class Task implements Serializable{
     private int number;
     private static int countOfTasks = 0;
 
-//    static{
-//        try {
-//            if(Files.readAllLines(User.file.toPath()).size()!=0){
-//                Task auxilaryvar = new Task();
-//                try(BufferedReader reader = new BufferedReader(new FileReader(User.file))){
-//                    while(reader.ready()){
-//                        auxilaryvar.text = reader.readLine();
-//                    }
-//                }catch(Exception e){
-//                    e.printStackTrace();
-//                }
-//                countOfTasks = Integer.parseInt(auxilaryvar.text.substring(5,6));
-//                auxilaryvar = null;
-//            }else{
-//                countOfTasks = 0;
-//            }
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
     public Task(String text) {
         this.text = text;
         this.number = ++countOfTasks;

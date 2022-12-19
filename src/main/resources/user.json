@@ -1,18 +1,25 @@
 {
   "countDoneTasks" : 0,
-  "countAllTasks" : 0,
+  "countAllTasks" : 3,
   "tasksList" : [ {
-    "text" : "do this",
-    "doBefore" : [ 2022, 3, 30 ],
+    "text" : "do it 1",
+    "doBefore" : [ 2022, 1, 1 ],
     "doneDate" : null,
     "number" : 1,
     "done" : false,
     "onTime" : false
   }, {
-    "text" : "and this",
-    "doBefore" : [ 2022, 12, 30 ],
+    "text" : "do it 2",
+    "doBefore" : [ 2022, 2, 2 ],
     "doneDate" : null,
     "number" : 2,
+    "done" : false,
+    "onTime" : false
+  }, {
+    "text" : "do it 3",
+    "doBefore" : [ 2022, 3, 3 ],
+    "doneDate" : null,
+    "number" : 3,
     "done" : false,
     "onTime" : false
   } ]
