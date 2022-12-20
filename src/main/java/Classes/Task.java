@@ -1,5 +1,6 @@
 package Classes;
 
+import Interfaces.ITask;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
@@ -9,7 +10,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class Task implements Serializable{
+public class Task implements Serializable, ITask {
     static private DateTimeFormatter formatForDateOfMade = DateTimeFormatter.ofPattern("d MMMM yyyy");
     static private DateTimeFormatter formatForExpiryDate = DateTimeFormatter.ofPattern("d MMMM");
     private String text;
@@ -96,7 +97,6 @@ public class Task implements Serializable{
     public static void setCountOfTasks(int countOfTasks) {
         Task.countOfTasks = countOfTasks;
     }
-
     @Override
     public String toString() {
         return String.format("Task %d: %-50s задано: %-20s Виконати до: %s", number, text,

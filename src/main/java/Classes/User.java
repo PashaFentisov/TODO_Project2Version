@@ -17,7 +17,7 @@ public class User{                                    //TODO можливо тр
     public static final String ANSI_YELLOW = "\u001B[33m";
     static File file = new File("D:\\idea project\\TODO_Project2Version\\src\\main\\resources\\user.json");
     private LinkedList<Task> tasksList = new LinkedList<>();
-    Task task;
+    private Task task;
     private ITaskEditor taskEditor;
     private ITaskShower taskShower;
     private ITaskReaderWriter taskReaderWriter;
@@ -56,6 +56,9 @@ public class User{                                    //TODO можливо тр
     }
     public void showTasksInFile(){
         taskShower.showTasksInFile(this);
+    }
+    public void editList(){
+        taskEditor.editList(this.tasksList, this);
     }
 
 
