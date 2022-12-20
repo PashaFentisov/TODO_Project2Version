@@ -3,11 +3,12 @@ package Classes;
 import Interfaces.ITaskEditor;
 import Interfaces.ITaskReaderWriter;
 import Interfaces.ITaskShower;
+import Interfaces.IUser;
 
 import java.io.File;
 import java.util.LinkedList;
 
-public class User{                                    //TODO можливо треба все таки реалізувати всі інтерфейси
+public class User implements IUser{                                    //TODO можливо треба все таки реалізувати всі інтерфейси
     private int countDoneTasks = 0;
     private int countAllTasks = 0;
     public static final String ANSI_RESET = "\u001B[0m";
@@ -61,6 +62,9 @@ public class User{                                    //TODO можливо тр
         taskEditor.editList(this.tasksList, this);
     }
 
+    public void deleteTasksFromFile(){
+        taskEditor.deleteTasksFromFile(this);
+    }
 
 
 

@@ -91,4 +91,77 @@ public class TaskEditor implements ITaskEditor {
         }
     }
 
+    public void deleteTasksFromFile(User user){
+        int intTemp;
+        user.getTasksList().clear();
+        String temp;
+        try {
+            user.readUserFromFile();
+        }catch(Exception e){
+            System.out.println(User.ANSI_RED + "You don`t have any task" + ANSI_RESET);
+            return;
+        }
+        while (true) {
+            System.out.println(ANSI_YELLOW + "Поточні таски---------------------------------------------------------------------------------------------------------------" + ANSI_RESET);
+            user.showListTasks();
+            System.out.print(ANSI_YELLOW + "Введіть номер таску якій хочете видалити\nДля видалення всіх таксів - all\nДля видалення зроблених - DONE\nДля закінчення - stop\nПоле для вводу:" + ANSI_RESET);
+            temp = reader.next();
+            if (temp.equalsIgnoreCase("stop")) {
+                break;
+            }
+            if (temp.equalsIgnoreCase("all")) {
+                System.out.print(User.ANSI_RED + "Всі таски будуть видалені з пам'яті, для підтвердження натисніть enter, для відміни введіть stop: " + ANSI_RESET);
+                if (reader.nextLine().equalsIgnoreCase("stop")) {
+                    continue;
+                }
+                user.getTasksList().clear();
+                user.setCountAllTasks(0);
+                user.writeUserToFile();
+                System.out.println(User.ANSI_GREEN + "Всі таски видалено" + ANSI_RESET);
+                return;
+            }
+            if (temp.equalsIgnoreCase("DONE")) {
+                System.out.print(User.ANSI_RED + "Всі виконані таски будуть видалені з пам'яті, для підтвердження натисніть enter, для відміни введіть stop: " + ANSI_RESET);
+                if (reader.nextLine().equalsIgnoreCase("stop")) {
+                    continue;
+                }
+                for (int i = 0; i < user.getTasksList().size(); i++) {
+                    if (user.getTasksList().get(i).getText().contains("DONE")) {
+                        user.getTasksList().remove(i);
+                        user.setCountAllTasks(user.getCountAllTasks() - 1);
+                        for (int k = 0; k < user.getTasksList().size(); k++) {
+                            if (user.getTasksList().get(k).getNumber() > i) {
+                                user.getTasksList().get(k).setNumber(user.getTasksList().get(k).getNumber() - 1);
+                            }
+                        }
+                        --i;
+                    }
+                }
+                System.out.println(User.ANSI_GREEN + "Всі виконані таски видалено" + ANSI_RESET);
+                break;
+
+            } else {
+                try {
+                    intTemp = Integer.parseInt(temp);
+                } catch (Exception e) {
+                    break;
+                }
+                for (int i = 0; i < user.getTasksList().size(); i++) {
+                    if (user.getTasksList().get(i).getNumber()==intTemp) {
+                        user.getTasksList().remove(i);
+                        user.setCountAllTasks(user.getCountAllTasks() - 1);
+                        for (int k = 0; k < user.getTasksList().size(); k++) {
+                            if (user.getTasksList().get(k).getNumber() > i) {
+                                user.getTasksList().get(k).setNumber(user.getTasksList().get(k).getNumber() - 1);
+                            }
+                        }
+                        System.out.println(User.ANSI_GREEN + "Task " + intTemp + " видалено" + ANSI_RESET);
+                        break;
+                    }
+                }
+            }
+        }
+        user.writeUserToFile();
+    }
+
 }
