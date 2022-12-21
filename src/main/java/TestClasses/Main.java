@@ -11,5 +11,6 @@ public class Main {
         User user = new User(new TaskEditor(new OwnReader()), new TaskShower(), new TaskReaderWriter());
         user.fillList();
         user.makeTaskDone();
+        user.deleteTasksFromFile();
     }
 }
