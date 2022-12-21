@@ -12,6 +12,6 @@ public class Main {
         user.fillList();
         user.makeTaskDone();
         user.deleteTasksFromFile();
-        user.showDoneTasks();
+        user.showTasksInProgress();
     }
 }

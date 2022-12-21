@@ -33,7 +33,7 @@ public class User implements IUser{                                    //TODO м
         try{
             readUserFromFile();
         }catch(Exception e){
-            System.out.println("У вас поки немає тасків");
+            System.out.println(ANSI_RED + "У вас поки немає тасків" + ANSI_RESET);
         }
     }
 
@@ -72,6 +72,10 @@ public class User implements IUser{                                    //TODO м
 
     public void showDoneTasks(){
         taskShower.showDoneTasks(this);
+    }
+
+    public void showTasksInProgress(){
+        taskShower.showTasksInProgress(this);
     }
 
 

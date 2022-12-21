@@ -1,5 +1,7 @@
 package Interfaces;
 
+import Classes.User;
+
 public interface IUser {
     void fillList();
     void writeUserToFile();
@@ -10,4 +12,5 @@ public interface IUser {
     void deleteTasksFromFile();
     void makeTaskDone();
     void showDoneTasks();
+    void showTasksInProgress();
 }
