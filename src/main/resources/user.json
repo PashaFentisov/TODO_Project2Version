@@ -1,12 +1,5 @@
 {
   "countDoneTasks" : 0,
-  "countAllTasks" : 1,
-  "tasksList" : [ {
-    "text" : "do it 6",
-    "doBefore" : [ 2022, 6, 6 ],
-    "doneDate" : null,
-    "number" : 1,
-    "done" : false,
-    "onTime" : ""
-  } ]
+  "countAllTasks" : 0,
+  "tasksList" : [ ]
 }
