@@ -1,5 +1,26 @@
 {
-  "countDoneTasks" : 0,
-  "countAllTasks" : 0,
-  "tasksList" : [ ]
+  "countDoneTasks" : 2,
+  "countAllTasks" : 3,
+  "tasksList" : [ {
+    "text" : "do it 4",
+    "doBefore" : [ 2022, 12, 23 ],
+    "doneDate" : null,
+    "number" : 1,
+    "done" : true,
+    "onTime" : "Вчасно"
+  }, {
+    "text" : "do it 5",
+    "doBefore" : [ 2022, 5, 5 ],
+    "doneDate" : null,
+    "number" : 2,
+    "done" : false,
+    "onTime" : ""
+  }, {
+    "text" : "do it 6",
+    "doBefore" : [ 2022, 6, 6 ],
+    "doneDate" : null,
+    "number" : 3,
+    "done" : true,
+    "onTime" : "З запізненням"
+  } ]
 }

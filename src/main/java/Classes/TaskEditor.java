@@ -84,6 +84,9 @@ public class TaskEditor implements ITaskEditor {
                     if (list.get(j).getNumber() == i) {
                         list.remove(j);
                         user.setCountAllTasks(user.getCountAllTasks() - 1);
+                        if(list.get(j).isDone()){
+                            user.setCountDoneTasks(user.getCountDoneTasks() - 1);
+                        }
                         System.out.println(User.ANSI_GREEN + "Task " + i + " видалено" + User.ANSI_RESET);
                         for (int k = 0; k < list.size(); k++) {
                             if (list.get(k).getNumber() > i) {
@@ -140,6 +143,9 @@ public class TaskEditor implements ITaskEditor {
             if (user.getTasksList().get(i).getNumber() == intTemp) {
                 user.getTasksList().remove(i);
                 user.setCountAllTasks(user.getCountAllTasks() - 1);
+                if(user.getTasksList().get(i).isDone()){
+                    user.setCountDoneTasks(user.getCountDoneTasks() - 1);
+                }
                 for (int k = 0; k < user.getTasksList().size(); k++) {
                     if (user.getTasksList().get(k).getNumber() > i) {
                         user.getTasksList().get(k).setNumber(user.getTasksList().get(k).getNumber() - 1);
@@ -185,15 +191,21 @@ public class TaskEditor implements ITaskEditor {
     }
 
     public void makeTaskDone(User user) {
-        int intTemp = -1;
+        int intTemp;
         user.getTasksList().clear();
-        user.readUserFromFile();
+        try{
+            user.readUserFromFile();
+        }catch(Exception e){
+            System.out.println(User.ANSI_RED + "Your file is empty" + User.ANSI_RESET);
+            return;
+        }
         while (true) {
             user.showListTasks();
             System.out.print(ANSI_YELLOW + "Вкажіть номер таску який уже зробили, або натисніть enter: " + ANSI_RESET);
             try {
                 intTemp = Integer.parseInt(reader.next());
             } catch (Exception e) {
+                System.out.println(User.ANSI_RED + "Не коректний ввід" + ANSI_RESET);
                 break;
             }
             if(intTemp-1>=user.getTasksList().size()){
@@ -211,6 +223,7 @@ public class TaskEditor implements ITaskEditor {
                 user.getTasksList().get(intTemp-1).setOnTime("Вчасно");
                 user.getTasksList().get(intTemp-1).setDone(true);
             }
+            user.setCountDoneTasks(user.getCountDoneTasks()+1);
         }
         user.writeUserToFile();
     }

@@ -70,7 +70,9 @@ public class User implements IUser{                                    //TODO м
         taskEditor.makeTaskDone(this);
     }
 
-
+    public void showDoneTasks(){
+        taskShower.showDoneTasks(this);
+    }
 
 
 

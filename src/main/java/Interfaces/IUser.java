@@ -9,4 +9,5 @@ public interface IUser {
     void editList();
     void deleteTasksFromFile();
     void makeTaskDone();
+    void showDoneTasks();
 }
