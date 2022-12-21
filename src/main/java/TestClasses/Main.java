@@ -9,7 +9,7 @@ import ServiceClasses.OwnReader;
 public class Main {
     public static void main(String[] args) {
         User user = new User(new TaskEditor(new OwnReader()), new TaskShower(), new TaskReaderWriter());
-        user.showTasksInFile();
-        user.deleteTasksFromFile();
+        user.fillList();
+        user.makeTaskDone();
     }
 }

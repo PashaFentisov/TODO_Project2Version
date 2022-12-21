@@ -9,4 +9,5 @@ public interface ITaskEditor {
     void fillList(User user, Task task, LinkedList<Task> tasksList);
     void editList(LinkedList<Task> list, User user);
     void deleteTasksFromFile(User user);
+    void makeTaskDone(User user);
 }

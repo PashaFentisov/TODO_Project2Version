@@ -66,6 +66,10 @@ public class User implements IUser{                                    //TODO м
         taskEditor.deleteTasksFromFile(this);
     }
 
+    public void makeTaskDone(){
+        taskEditor.makeTaskDone(this);
+    }
+
 
 
 

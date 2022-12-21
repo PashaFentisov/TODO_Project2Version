@@ -2,17 +2,20 @@ package Classes;
 
 import Interfaces.ITaskEditor;
 import ServiceClasses.OwnReader;
+
 import java.time.LocalDate;
 import java.util.LinkedList;
 
 import static Classes.User.ANSI_RESET;
 import static Classes.User.ANSI_YELLOW;
+
 public class TaskEditor implements ITaskEditor {
     OwnReader reader;
 
     public TaskEditor(OwnReader reader) {
         this.reader = reader;
     }
+
     public TaskEditor() {
     }
 
@@ -27,6 +30,7 @@ public class TaskEditor implements ITaskEditor {
                 break;
             }
             task = new Task(tempStr);
+            task.setOnTime("");
             System.out.println(ANSI_YELLOW + "\nВведіть дату до якої треба виконати таск" + ANSI_RESET);
             System.out.print(ANSI_YELLOW + "Введіть день: " + ANSI_RESET);
             try {
@@ -50,16 +54,17 @@ public class TaskEditor implements ITaskEditor {
         user.setTasksList(tasksList);
         System.out.println(User.ANSI_GREEN + "These tasks will be saved, if you agree press enter else enter \"edit\"" + ANSI_RESET);
         user.showListTasks();
-        if(reader.nextLine().equalsIgnoreCase("edit")){
+        if (reader.nextLine().equalsIgnoreCase("edit")) {
             editList(user.getTasksList(), user);
         }
         user.writeUserToFile();
-        try{
+        try {
             user.readUserFromFile();
-        }catch(Exception e){}
+        } catch (Exception e) {
+        }
     }
 
-    public void editList(LinkedList<Task> list, User user){
+    public void editList(LinkedList<Task> list, User user) {
         System.out.print(ANSI_YELLOW + "Bи хочете додати(add) таск чи видалити(delete) таск: " + ANSI_RESET);
         String tempString = reader.next();
         if (tempString.equalsIgnoreCase("add")) {
@@ -76,13 +81,13 @@ public class TaskEditor implements ITaskEditor {
                     break;
                 }
                 for (int j = 0; j < list.size(); j++) {
-                    if (list.get(j).getNumber()==i) {
+                    if (list.get(j).getNumber() == i) {
                         list.remove(j);
-                        user.setCountAllTasks(user.getCountAllTasks()-1);
+                        user.setCountAllTasks(user.getCountAllTasks() - 1);
                         System.out.println(User.ANSI_GREEN + "Task " + i + " видалено" + User.ANSI_RESET);
                         for (int k = 0; k < list.size(); k++) {
-                            if(list.get(k).getNumber()>i){
-                                list.get(k).setNumber(list.get(k).getNumber()-1);
+                            if (list.get(k).getNumber() > i) {
+                                list.get(k).setNumber(list.get(k).getNumber() - 1);
                             }
                         }
                     }
@@ -91,13 +96,13 @@ public class TaskEditor implements ITaskEditor {
         }
     }
 
-    public void deleteTasksFromFile(User user){
+    public void deleteTasksFromFile(User user) {
         int intTemp;
         user.getTasksList().clear();
         String temp;
         try {
             user.readUserFromFile();
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(User.ANSI_RED + "You don`t have any task" + ANSI_RESET);
             return;
         }
@@ -126,7 +131,7 @@ public class TaskEditor implements ITaskEditor {
                     continue;
                 }
                 for (int i = 0; i < user.getTasksList().size(); i++) {
-                    if (user.getTasksList().get(i).getText().contains("DONE")) {
+                    if (user.getTasksList().get(i).isDone()) {
                         user.getTasksList().remove(i);
                         user.setCountAllTasks(user.getCountAllTasks() - 1);
                         for (int k = 0; k < user.getTasksList().size(); k++) {
@@ -147,7 +152,7 @@ public class TaskEditor implements ITaskEditor {
                     break;
                 }
                 for (int i = 0; i < user.getTasksList().size(); i++) {
-                    if (user.getTasksList().get(i).getNumber()==intTemp) {
+                    if (user.getTasksList().get(i).getNumber() == intTemp) {
                         user.getTasksList().remove(i);
                         user.setCountAllTasks(user.getCountAllTasks() - 1);
                         for (int k = 0; k < user.getTasksList().size(); k++) {
@@ -159,6 +164,37 @@ public class TaskEditor implements ITaskEditor {
                         break;
                     }
                 }
+            }
+        }
+        user.writeUserToFile();
+    }
+
+    public void makeTaskDone(User user) {
+        int intTemp = -1;
+        user.getTasksList().clear();
+        user.readUserFromFile();
+        while (true) {
+            user.showListTasks();
+            System.out.print(ANSI_YELLOW + "Вкажіть номер таску який уже зробили, або натисніть enter: " + ANSI_RESET);
+            try {
+                intTemp = Integer.parseInt(reader.next());
+            } catch (Exception e) {
+                break;
+            }
+            if(intTemp-1>=user.getTasksList().size()){
+                System.out.println(User.ANSI_RED + "Такого таску немає, повторіть спробу" + ANSI_RESET);
+                continue;
+            }
+            if(user.getTasksList().get(intTemp-1).isDone()){
+                System.out.println(User.ANSI_RED + "Цей таск вже помічено як зроблений, повторіть спробу" + ANSI_RESET);
+                continue;
+            }
+            if (LocalDate.now().isAfter(user.getTasksList().get(intTemp - 1).getDoBefore())) {
+                user.getTasksList().get(intTemp-1).setOnTime("З запізненням");
+                user.getTasksList().get(intTemp-1).setDone(true);
+            } else {
+                user.getTasksList().get(intTemp-1).setOnTime("Вчасно");
+                user.getTasksList().get(intTemp-1).setDone(true);
             }
         }
         user.writeUserToFile();

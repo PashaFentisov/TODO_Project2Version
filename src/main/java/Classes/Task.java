@@ -21,7 +21,7 @@ public class Task implements Serializable, ITask {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate doneDate;
-    private boolean isOnTime;
+    private String isOnTime;
     private int number;
     private static int countOfTasks = 0;
 
@@ -73,15 +73,12 @@ public class Task implements Serializable, ITask {
     public void setDoneDate(LocalDate doneDate) {
         this.doneDate = doneDate;
     }
-
-    public boolean isOnTime() {
+    public String getOnTime() {
         return isOnTime;
     }
-
-    public void setOnTime(boolean onTime) {
-        isOnTime = onTime;
+    public void setOnTime(String onTime) {
+        this.isOnTime = onTime;
     }
-
     public int getNumber() {
         return number;
     }
@@ -97,10 +94,22 @@ public class Task implements Serializable, ITask {
     public static void setCountOfTasks(int countOfTasks) {
         Task.countOfTasks = countOfTasks;
     }
+
     @Override
     public String toString() {
-        return String.format("Task %d: %-50s задано: %-20s Виконати до: %s", number, text,
-                LocalDate.now().format(formatForDateOfMade),
-                doBefore.format(formatForExpiryDate));
+        String temp = (isDone) ? String.format("%-12s %s %s", "DONE", LocalDate.now().format(Task.getFormatForDateOfMade()), isOnTime) : "";
+        if (isOnTime.equalsIgnoreCase("Вчасно")) {
+            return String.format(User.ANSI_GREEN + "Task %d: %-50s задано: %-20s Виконати до: %-15s %s" + User.ANSI_RESET, number, text,
+                    LocalDate.now().format(formatForDateOfMade),
+                    doBefore.format(formatForExpiryDate), temp);
+        } else if (isOnTime.equalsIgnoreCase("З запізненням")) {
+            return String.format(User.ANSI_RED + "Task %d: %-50s задано: %-20s Виконати до: %-15s %s" + User.ANSI_RESET, number, text,
+                    LocalDate.now().format(formatForDateOfMade),
+                    doBefore.format(formatForExpiryDate), temp);
+        } else {
+            return String.format("Task %d: %-50s задано: %-20s Виконати до: %-15s", number, text,
+                    LocalDate.now().format(formatForDateOfMade),
+                    doBefore.format(formatForExpiryDate));
+        }
     }
 }

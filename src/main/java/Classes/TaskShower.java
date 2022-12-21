@@ -8,6 +8,7 @@ public class TaskShower implements ITaskShower {
     }
 
     public void showListTasks(User user){
+        System.out.println(User.ANSI_GREEN + "Yours tasks" + User.ANSI_RESET);
         user.getTasksList().forEach(System.out::println);
     }
 

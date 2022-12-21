@@ -20,9 +20,9 @@ public interface ITask {
 
     void setDoneDate(LocalDate doneDate);
 
-    boolean isOnTime();
+    String getOnTime();
 
-    void setOnTime(boolean onTime);
+    void setOnTime(String onTime);
 
     int getNumber();
 
