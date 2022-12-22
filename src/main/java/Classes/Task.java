@@ -8,11 +8,12 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
 public class Task implements Serializable, ITask {
-    static private DateTimeFormatter formatForDateOfMade = DateTimeFormatter.ofPattern("d MMMM yyyy");
-    static private DateTimeFormatter formatForExpiryDate = DateTimeFormatter.ofPattern("d MMMM");
+    static private final  DateTimeFormatter formatForDateOfMade = DateTimeFormatter.ofPattern("d MMMM yyyy");
+    static private final DateTimeFormatter formatForExpiryDate = DateTimeFormatter.ofPattern("d MMMM");
     private String text;
     private boolean isDone;
     @JsonDeserialize(using = LocalDateDeserializer.class)
@@ -73,12 +74,15 @@ public class Task implements Serializable, ITask {
     public void setDoneDate(LocalDate doneDate) {
         this.doneDate = doneDate;
     }
+
     public String getOnTime() {
         return isOnTime;
     }
+
     public void setOnTime(String onTime) {
         this.isOnTime = onTime;
     }
+
     public int getNumber() {
         return number;
     }
@@ -97,7 +101,17 @@ public class Task implements Serializable, ITask {
 
     @Override
     public String toString() {
-        String temp = (isDone) ? String.format("%-12s %s %s", "DONE", LocalDate.now().format(Task.getFormatForDateOfMade()), isOnTime) : "";
+        String temp;
+        Period p = Period.between(LocalDate.now(), doBefore);
+        try{
+            if(p.getMonths()<0||p.getDays()<0){
+                throw new Exception();
+            }
+            temp = String.format("%s month %s days", p.getMonths(), p.getDays());
+        }catch(Exception e){
+            temp = "Час сплинув";
+        }
+        temp = (isDone) ? String.format("%-12s %s %s", "DONE", doneDate.format(Task.getFormatForDateOfMade()), isOnTime) : temp;
         if (isOnTime.equalsIgnoreCase("Вчасно")) {
             return String.format(User.ANSI_GREEN + "Task %d: %-50s задано: %-20s Виконати до: %-15s %s" + User.ANSI_RESET, number, text,
                     LocalDate.now().format(formatForDateOfMade),
@@ -107,9 +121,9 @@ public class Task implements Serializable, ITask {
                     LocalDate.now().format(formatForDateOfMade),
                     doBefore.format(formatForExpiryDate), temp);
         } else {
-            return String.format("Task %d: %-50s задано: %-20s Виконати до: %-15s", number, text,
+            return String.format("Task %d: %-50s задано: %-20s Виконати до: %-15s залишилось : %s ", number, text,
                     LocalDate.now().format(formatForDateOfMade),
-                    doBefore.format(formatForExpiryDate));
+                    doBefore.format(formatForExpiryDate), temp);
         }
     }
 }

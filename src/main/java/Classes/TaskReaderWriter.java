@@ -24,10 +24,10 @@ public class TaskReaderWriter implements ITaskReaderWriter {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter(User.file))){
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(User.file))) {
             writer.write(temp);
-        }catch(Exception e){
-            e.printStackTrace();
+        } catch (Exception e) {
+            System.out.println(User.ANSI_RED + "File not found!" + User.ANSI_RESET);
         }
         user.getTasksList().clear();
     }
@@ -37,7 +37,7 @@ public class TaskReaderWriter implements ITaskReaderWriter {
         User user;
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
         try {
-           user = mapper.readValue(User.file, User.class);
+            user = mapper.readValue(User.file, User.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
