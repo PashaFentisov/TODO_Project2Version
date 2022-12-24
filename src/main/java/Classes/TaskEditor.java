@@ -69,6 +69,7 @@ public class TaskEditor implements ITaskEditor {
                 System.out.println(User.ANSI_RED + "You entered wrong value, month is " + LocalDate.now().getMonth() + User.ANSI_RESET);
                 task.setDoBefore(task.getDoBefore().withMonth(LocalDate.now().getMonthValue()));
             }
+            task.setCreateDate(LocalDate.now());
             tasksList.add(task);
             user.setCountAllTasks(task.getNumber());
         }

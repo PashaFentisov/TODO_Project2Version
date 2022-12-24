@@ -25,6 +25,10 @@ public class Task implements ITask {
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate doneDate;
+
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
+    private LocalDate createDate;
     private String isOnTime;
     private int number;
     private static int countOfTasks = 0;
@@ -102,6 +106,14 @@ public class Task implements ITask {
         Task.countOfTasks = countOfTasks;
     }
 
+    public LocalDate getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(LocalDate createDate) {
+        this.createDate = createDate;
+    }
+
     /**
      * Метод для строкового відображення таска.
      * Для не виконаних тасків задається temp - час скільки залишолось часу до дедлайна.
@@ -126,20 +138,20 @@ public class Task implements ITask {
         temp = (isDone) ? String.format("%-12s %s %s", "DONE", doneDate.format(Task.getFormatForDateOfMade()), isOnTime) : temp;
         if (isOnTime.equalsIgnoreCase("Вчасно")) {
             return String.format(User.ANSI_GREEN + "Task %d: %-50s задано: %-20s Виконати до: %-15s %s" + User.ANSI_RESET, number, text,
-                    LocalDate.now().format(formatForDateOfMade),
+                    createDate.format(formatForDateOfMade),
                     doBefore.format(formatForExpiryDate), temp);
         } else if (isOnTime.equalsIgnoreCase("З запізненням")) {
             return String.format(User.ANSI_RED + "Task %d: %-50s задано: %-20s Виконати до: %-15s %s" + User.ANSI_RESET, number, text,
-                    LocalDate.now().format(formatForDateOfMade),
+                    createDate.format(formatForDateOfMade),
                     doBefore.format(formatForExpiryDate), temp);
         } else {
             if (temp.equalsIgnoreCase("Час сплинув")) {
                 return String.format("Task %d: %-50s задано: %-20s Виконати до: %-15s залишилось :" + User.ANSI_RED + " %s " + User.ANSI_RESET, number, text,
-                        LocalDate.now().format(formatForDateOfMade),
+                        createDate.format(formatForDateOfMade),
                         doBefore.format(formatForExpiryDate), temp);
             } else {
                 return String.format("Task %d: %-50s задано: %-20s Виконати до: %-15s залишилось : %s ", number, text,
-                        LocalDate.now().format(formatForDateOfMade),
+                        createDate.format(formatForDateOfMade),
                         doBefore.format(formatForExpiryDate), temp);
             }
         }
