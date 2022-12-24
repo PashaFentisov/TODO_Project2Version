@@ -1,19 +1,27 @@
 package TestClasses;
 
 import Classes.User;
+import Interfaces.IUser;
 import ServiceClasses.OwnReader;
+
+/**
+ * @author Pasha Fentisov
+ * @version 2.0
+ * @since 22.19.22
+ */
 
 public class Main {
     private static final OwnReader reader = new OwnReader();
     private static boolean exit;
+
     public static void main(String[] args) {
-        User user = User.getInstatnce();
-        while(!exit){
+        IUser user = User.getInstatnce();
+        while (!exit) {
             method(user);
         }
     }
 
-    public static void method(User user) {
+    public static void method(IUser user) {
         System.out.println(User.ANSI_YELLOW + "Можливі функції" + User.ANSI_RESET);
         System.out.println("""
                 1.0 Заповнити список завданнями - fillList
@@ -24,7 +32,7 @@ public class Main {
                 6.0 Видалити завдання з файлу - deleteTasksFromFile""");
         System.out.print(User.ANSI_YELLOW + "Введіть номер функції яку хочете використати, або натисніть \"enter\": " + User.ANSI_RESET);
         String s = reader.next();
-        if(s.isEmpty()){
+        if (s.isEmpty()) {
             exit = true;
         }
         switch (s) {

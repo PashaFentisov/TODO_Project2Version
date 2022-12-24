@@ -10,11 +10,19 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Клас відповідає за запис та читання об'єкта User з файлу
+ */
 public class TaskReaderWriter implements ITaskReaderWriter {
 
     public TaskReaderWriter() {
     }
 
+    /**
+     * Метод записує переданий об'єкт user у json файл використовуючи jackson
+     *
+     * @param user Об'єкт користувача
+     */
     @Override
     public void writeUserToFile(User user) {
         String temp;
@@ -32,6 +40,11 @@ public class TaskReaderWriter implements ITaskReaderWriter {
         user.getTasksList().clear();
     }
 
+    /**
+     * Метод зчитує з json файлу об'єкт та повертає його
+     *
+     * @return Прочитаний об'єкт класа User
+     */
     @Override
     public User readUserFromFile() {
         User user;

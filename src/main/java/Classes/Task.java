@@ -6,13 +6,16 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 
-public class Task implements Serializable, ITask {
-    static private final  DateTimeFormatter formatForDateOfMade = DateTimeFormatter.ofPattern("d MMMM yyyy");
+
+/**
+ * Клас який містить всю інформацію про кожен таск
+ */
+public class Task implements ITask {
+    static private final DateTimeFormatter formatForDateOfMade = DateTimeFormatter.ofPattern("d MMMM yyyy");
     static private final DateTimeFormatter formatForExpiryDate = DateTimeFormatter.ofPattern("d MMMM");
     private String text;
     private boolean isDone;
@@ -99,16 +102,25 @@ public class Task implements Serializable, ITask {
         Task.countOfTasks = countOfTasks;
     }
 
+    /**
+     * Метод для строкового відображення таска.
+     * Для не виконаних тасків задається temp - час скільки залишолось часу до дедлайна.
+     * Якщо дедлайн прострочено то temp = "Час сплинув".
+     * Якщо поле isDone для task позначено як true, то temp присвоюється приставка "DONE",
+     * час коли таск було виконано і "Вчасно" або "З запізненням".
+     *
+     * @return Строковий опис таска
+     */
     @Override
     public String toString() {
         String temp;
         Period p = Period.between(LocalDate.now(), doBefore);
-        try{
-            if(p.getMonths()<0||p.getDays()<0){
+        try {
+            if (p.getMonths() < 0 || p.getDays() < 0) {
                 throw new Exception();
             }
             temp = String.format("%s month %s days", p.getMonths(), p.getDays());
-        }catch(Exception e){
+        } catch (Exception e) {
             temp = "Час сплинув";
         }
         temp = (isDone) ? String.format("%-12s %s %s", "DONE", doneDate.format(Task.getFormatForDateOfMade()), isOnTime) : temp;
@@ -121,9 +133,15 @@ public class Task implements Serializable, ITask {
                     LocalDate.now().format(formatForDateOfMade),
                     doBefore.format(formatForExpiryDate), temp);
         } else {
-            return String.format("Task %d: %-50s задано: %-20s Виконати до: %-15s залишилось : %s ", number, text,
-                    LocalDate.now().format(formatForDateOfMade),
-                    doBefore.format(formatForExpiryDate), temp);
+            if (temp.equalsIgnoreCase("Час сплинув")) {
+                return String.format("Task %d: %-50s задано: %-20s Виконати до: %-15s залишилось :" + User.ANSI_RED + " %s " + User.ANSI_RESET, number, text,
+                        LocalDate.now().format(formatForDateOfMade),
+                        doBefore.format(formatForExpiryDate), temp);
+            } else {
+                return String.format("Task %d: %-50s задано: %-20s Виконати до: %-15s залишилось : %s ", number, text,
+                        LocalDate.now().format(formatForDateOfMade),
+                        doBefore.format(formatForExpiryDate), temp);
+            }
         }
     }
 }

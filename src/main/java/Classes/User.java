@@ -8,50 +8,90 @@ import ServiceClasses.OwnReader;
 
 import java.io.File;
 import java.util.LinkedList;
+import java.util.List;
 
-public class User implements IUser{
+/**
+ * Загальний клас який оголошує роботу всіх методів з списком тасків.
+ */
+public class User implements IUser {
     private int countDoneTasks = 0;
     private int countAllTasks = 0;
+
+    /**
+     * Поле для виводу тексту в різних кольорах
+     */
     public static final String ANSI_RESET = "\u001B[0m";
+    /**
+     * Поле для виводу тексту в різних кольорах
+     */
     public static final String ANSI_GREEN = "\u001B[32m";
+    /**
+     * Поле для виводу тексту в різних кольорах
+     */
     public static final String ANSI_RED = "\u001B[31m";
+    /**
+     * Поле для виводу тексту в різних кольорах
+     */
     public static final String ANSI_YELLOW = "\u001B[33m";
-    static File file = new File("user.json");
-    private LinkedList<Task> tasksList = new LinkedList<>();
+    public static File file = new File("user.json");
+    private List<Task> tasksList = new LinkedList<>();
     private Task task;
     private ITaskEditor taskEditor;
     private ITaskShower taskShower;
     private ITaskReaderWriter taskReaderWriter;
 
-    public User() {}
+    public User() {
+    }
 
-    private static User user;
+    private static IUser user;
 
-    public synchronized static User getInstatnce(){
-        if(user==null){
+    /**
+     * Метод який повертає об'єкт класа User так як застосований патерн Singleton.
+     *
+     * @return Об'єкт User
+     */
+    public synchronized static IUser getInstatnce() {
+        if (user == null) {
             user = new User(new TaskEditor(new OwnReader()), new TaskShower(), new TaskReaderWriter());
         }
         return user;
     }
 
-    private User(ITaskEditor taskEditor, ITaskShower taskShower, ITaskReaderWriter taskReaderWriter){
+    private User(ITaskEditor taskEditor, ITaskShower taskShower, ITaskReaderWriter taskReaderWriter) {
         this.taskShower = taskShower;
         this.taskReaderWriter = taskReaderWriter;
         this.taskEditor = taskEditor;
-        try{
+        try {
             readUserFromFile();
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println(ANSI_RED + "У вас поки немає тасків" + ANSI_RESET);
         }
     }
+
+    /**
+     * Метод для виклику метода {@link TaskEditor#fillList(User, Task, List)} через об'єкт цього класу.
+     * Передається this - поточний об'єкт User,  task - об'єкт класа Task який заповнюється і додається в список тасків,
+     * tasksList - список тасків поточного об'єкта класа USer
+     */
     @Override
     public void fillList() {
         taskEditor.fillList(this, task, tasksList);
     }
+
+    /**
+     * Метод для виклику метода {@link TaskReaderWriter#writeUserToFile(User)} через об'єкт цього класу.
+     * Передається this - поточний об'єкт User.
+     */
     @Override
     public void writeUserToFile() {
         taskReaderWriter.writeUserToFile(this);
     }
+
+    /**
+     * Метод для виклику метода {@link TaskReaderWriter#readUserFromFile()} через об'єкт цього класу.
+     * Метод {@link TaskReaderWriter#readUserFromFile()} повертає об'єкт класа User.
+     * З цього об'єкта дістаємо поля tasksList, countDoneTasks, countAllTasks і присвоюємо їх значення відповідним полям поточного об'єкта User.
+     */
     @Override
     public void readUserFromFile() {
         User user = taskReaderWriter.readUserFromFile();
@@ -60,32 +100,66 @@ public class User implements IUser{
         this.countAllTasks = user.getCountAllTasks();
         Task.setCountOfTasks(user.getCountAllTasks());
     }
+    
+    /**
+     * Метод для виклику метода {@link TaskShower#showListTasks(User)} через об'єкт цього класу.
+     * Передається this - поточний об'єкт User.
+     */
     @Override
-    public void showListTasks(){
+    public void showListTasks() {
         taskShower.showListTasks(this);
     }
+    
+    /**
+     * Метод для виклику метода {@link TaskShower#showTasksInFile(User)} через об'єкт цього класу.
+     * Передається this - поточний об'єкт User.
+     */
     @Override
-    public void showTasksInFile(){
+    public void showTasksInFile() {
         taskShower.showTasksInFile(this);
     }
+    
+    /**
+     * Метод для виклику метода {@link TaskEditor#editList(List, User)} через об'єкт цього класу.
+     * Передається tasksList - список з тасками ,this - поточний об'єкт User.
+     */
     @Override
-    public void editList(){
+    public void editList() {
         taskEditor.editList(this.tasksList, this);
     }
+    
+    /**
+     * Метод для виклику метода {@link TaskEditor#deleteTasksFromFile(User)} через об'єкт цього класу.
+     * Передається this - поточний об'єкт User.
+     */
     @Override
-    public void deleteTasksFromFile(){
+    public void deleteTasksFromFile() {
         taskEditor.deleteTasksFromFile(this);
     }
+    
+    /**
+     * Метод для виклику метода {@link TaskEditor#makeTaskDone(User)} через об'єкт цього класу.
+     * Передається this - поточний об'єкт User.
+     */
     @Override
-    public void makeTaskDone(){
+    public void makeTaskDone() {
         taskEditor.makeTaskDone(this);
     }
+    
+    /**
+     * Метод для виклику метода {@link TaskShower#showDoneTasks(User)} через об'єкт цього класу.
+     * Передається this - поточний об'єкт User.
+     */
     @Override
-    public void showDoneTasks(){
+    public void showDoneTasks() {
         taskShower.showDoneTasks(this);
     }
+    /**
+     * Метод для виклику метода {@link TaskShower#showTasksInProgress(User)} через об'єкт цього класу.
+     * Передається this - поточний об'єкт User.
+     */
     @Override
-    public void showTasksInProgress(){
+    public void showTasksInProgress() {
         taskShower.showTasksInProgress(this);
     }
 
@@ -97,7 +171,7 @@ public class User implements IUser{
         return countAllTasks;
     }
 
-    public LinkedList<Task> getTasksList() {
+    public List<Task> getTasksList() {
         return tasksList;
     }
 
@@ -105,7 +179,7 @@ public class User implements IUser{
         this.countDoneTasks = countDoneTasks;
     }
 
-    public void setTasksList(LinkedList<Task> tasksList) {
+    public void setTasksList(List<Task> tasksList) {
         this.tasksList = tasksList;
     }
 
