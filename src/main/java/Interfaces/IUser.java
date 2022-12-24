@@ -1,5 +1,9 @@
 package Interfaces;
 
+import Classes.Task;
+
+import java.util.List;
+
 public interface IUser {
     void fillList();
 
@@ -20,4 +24,20 @@ public interface IUser {
     void showDoneTasks();
 
     void showTasksInProgress();
+
+    int getCountDoneTasks();
+
+    int getCountAllTasks();
+
+    List<Task> getTasksList();
+
+    void setCountDoneTasks(int countDoneTasks);
+
+    void setTasksList(List<Task> tasksList);
+
+    void setCountAllTasks(int countAllTasks);
+
+    Task getTask();
+
+    void setTask(Task task);
 }

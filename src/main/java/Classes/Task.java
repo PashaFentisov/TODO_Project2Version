@@ -9,12 +9,13 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 
 /**
  * Клас який містить всю інформацію про кожен таск
  */
-public class Task implements ITask {
+public class Task implements ITask, Comparable<Task> {
     static private final DateTimeFormatter formatForDateOfMade = DateTimeFormatter.ofPattern("d MMMM yyyy");
     static private final DateTimeFormatter formatForExpiryDate = DateTimeFormatter.ofPattern("d MMMM");
     private String text;
@@ -155,5 +156,27 @@ public class Task implements ITask {
                         doBefore.format(formatForExpiryDate), temp);
             }
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return isDone == task.isDone && number == task.number && Objects.equals(text, task.text) && Objects.equals(doBefore, task.doBefore) && Objects.equals(doneDate, task.doneDate) && Objects.equals(createDate, task.createDate) && Objects.equals(isOnTime, task.isOnTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(text, isDone, doBefore, doneDate, createDate, isOnTime, number);
+    }
+
+    @Override
+    public int compareTo(Task o) {
+        int temp = this.text.compareTo(o.text);
+        if(temp == 0){
+            temp = this.number-o.number;
+        }
+        return temp;
     }
 }

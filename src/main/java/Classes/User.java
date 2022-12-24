@@ -187,6 +187,14 @@ public class User implements IUser {
         this.countAllTasks = countAllTasks;
     }
 
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
+    }
+
     @Override
     public String toString() {
         return "User{" +
