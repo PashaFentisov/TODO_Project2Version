@@ -6,8 +6,7 @@ import Classes.User;
 import java.util.List;
 
 public interface ITaskEditor {
-    void fillList(User user, Task task, List<Task> tasksList);
-    void editList(List<Task> list, User user);
+    Task fillList(User user, Task task, List<Task> tasksList, String tempTextOfTask, Integer tempSelectedDay, Integer tempSelectedMonth);
     void deleteTasksFromFile(User user);
     void makeTaskDone(User user);
 }

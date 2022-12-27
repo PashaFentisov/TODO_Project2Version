@@ -69,14 +69,15 @@ public class User implements IUser {
         }
     }
 
-    /**
-     * Метод для виклику метода {@link TaskEditor#fillList(User, Task, List)} через об'єкт цього класу.
-     * Передається this - поточний об'єкт User,  task - об'єкт класа Task який заповнюється і додається в список тасків,
-     * tasksList - список тасків поточного об'єкта класа USer
-     */
+//    /**
+//     * Метод для виклику метода {@link TaskEditor#fillList(User, Task, List)} через об'єкт цього класу.
+//     * Передається this - поточний об'єкт User,  task - об'єкт класа Task який заповнюється і додається в список тасків,
+//     * tasksList - список тасків поточного об'єкта класа USer
+//     */
     @Override
-    public void fillList() {
-        taskEditor.fillList(this, task, tasksList);
+    public Task fillList(String tempTextOfTask, Integer tempSelectedDay, Integer tempSelectedMonth) {
+        task = taskEditor.fillList(this, task, tasksList, tempTextOfTask, tempSelectedDay, tempSelectedMonth);
+        return task;
     }
 
     /**
@@ -118,15 +119,6 @@ public class User implements IUser {
     @Override
     public void showTasksInFile(Main main) {
         taskShower.showTasksInFile(this, main);
-    }
-    
-    /**
-     * Метод для виклику метода {@link TaskEditor#editList(List, User)} через об'єкт цього класу.
-     * Передається tasksList - список з тасками ,this - поточний об'єкт User.
-     */
-    @Override
-    public void editList() {
-        taskEditor.editList(this.tasksList, this);
     }
     
     /**
@@ -186,14 +178,6 @@ public class User implements IUser {
 
     public void setCountAllTasks(int countAllTasks) {
         this.countAllTasks = countAllTasks;
-    }
-
-    public Task getTask() {
-        return task;
-    }
-
-    public void setTask(Task task) {
-        this.task = task;
     }
 
     @Override

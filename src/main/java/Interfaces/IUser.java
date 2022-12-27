@@ -6,7 +6,7 @@ import TestClasses.Main;
 import java.util.List;
 
 public interface IUser {
-    void fillList();
+    Task fillList(String tempTextOfTask, Integer tempSelectedDay, Integer tempSelectedMonth);
 
     void writeUserToFile();
 
@@ -15,8 +15,6 @@ public interface IUser {
     void showListTasks();
 
     void showTasksInFile(Main main);
-
-    void editList();
 
     void deleteTasksFromFile();
 
@@ -38,7 +36,4 @@ public interface IUser {
 
     void setCountAllTasks(int countAllTasks);
 
-    Task getTask();
-
-    void setTask(Task task);
 }

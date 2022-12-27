@@ -22,99 +22,34 @@ public class TaskEditor implements ITaskEditor {
     public TaskEditor() {
     }
 
-    /**
-     * Метод відповідає за наповнення списку тасками.
-     * Користувач вводить текст, та дату до якої треба виконати переданий task.
-     * При введені "stop" наповнення списку тасками завершується і вони записуються у файл методом {@link TaskReaderWriter#writeUserToFile(User)}.
-     * Для task початково поле isOnTime задається як пусте, щоб уникнути nullPointerException.
-     * При введенні дати до якої треба виконати таск проводиться перевірка на коректність,
-     * якщо вона не пройдена то полю doBefore присвоюється поточна дата.
-     * Рік для doBefore за змовченням задається поточний.
-     * Для переданого user встановлює кількість тасків на + 1 з кожним доданим таском.
-     * Якщо користувач хоче змінити список перед записом до файлу викликається метод  {@link TaskEditor#editList(List, User)},
-     * після редагування об'єкт user з списком тасків записується у файл методом {@link TaskReaderWriter#writeUserToFile(User)}.
-     * І з файлу зчитується оновлений об'єкт user методом {@link TaskReaderWriter#readUserFromFile()}.
-     *
-     * @param user      Об'єкт користувача
-     * @param task      Таск
-     * @param tasksList Список тасків
-     */
+//    /**
+//     * Метод відповідає за наповнення списку тасками.
+//     * Користувач вводить текст, та дату до якої треба виконати переданий task.
+//     * При введені "stop" наповнення списку тасками завершується і вони записуються у файл методом {@link TaskReaderWriter#writeUserToFile(User)}.
+//     * Для task початково поле isOnTime задається як пусте, щоб уникнути nullPointerException.
+//     * При введенні дати до якої треба виконати таск проводиться перевірка на коректність,
+//     * якщо вона не пройдена то полю doBefore присвоюється поточна дата.
+//     * Рік для doBefore за змовченням задається поточний.
+//     * Для переданого user встановлює кількість тасків на + 1 з кожним доданим таском.
+//     * Якщо користувач хоче змінити список перед записом до файлу викликається метод  {@link TaskEditor#editList(List, User)},
+//     * після редагування об'єкт user з списком тасків записується у файл методом {@link TaskReaderWriter#writeUserToFile(User)}.
+//     * І з файлу зчитується оновлений об'єкт user методом {@link TaskReaderWriter#readUserFromFile()}.
+//     *
+//     * @param user      Об'єкт користувача
+//     * @param task      Таск
+//     * @param tasksList Список тасків
+//     */
     @Override
-    public void fillList(User user, Task task, List<Task> tasksList) {
-        String tempStr;
-        int day;
-        int month;
-        while (true) {
-            System.out.print(User.ANSI_YELLOW + "Введіть таск який хочете додати до файлу, або stop: " + User.ANSI_RESET);
-            tempStr = reader.nextLine();
-            if (tempStr.equalsIgnoreCase("stop")) {
-                break;
-            }
-            task = new Task(tempStr);
-            task.setOnTime("");
-            System.out.println(User.ANSI_YELLOW + "\nВведіть дату до якої треба виконати таск" + User.ANSI_RESET);
-            System.out.print(User.ANSI_YELLOW + "Введіть день: " + User.ANSI_RESET);
-            try {
-                day = reader.nextInt();
-                task.setDoBefore(task.getDoBefore().withDayOfMonth(day));
-            } catch (Exception e) {
-                System.out.println(User.ANSI_RED + "You entered wrong value, day is " + LocalDate.now().getDayOfMonth() + User.ANSI_RESET);
-                task.setDoBefore(task.getDoBefore().withDayOfMonth(LocalDate.now().getDayOfMonth()));
-            }
-            System.out.print(User.ANSI_YELLOW + "Введіть місяць: " + User.ANSI_RESET);
-            try {
-                month = reader.nextInt();
-                task.setDoBefore(task.getDoBefore().withMonth(month));
-            } catch (Exception e) {
-                System.out.println(User.ANSI_RED + "You entered wrong value, month is " + LocalDate.now().getMonth() + User.ANSI_RESET);
-                task.setDoBefore(task.getDoBefore().withMonth(LocalDate.now().getMonthValue()));
-            }
-            task.setCreateDate(LocalDate.now());
-            tasksList.add(task);
-            user.setCountAllTasks(task.getNumber());
-        }
+    public Task fillList(User user, Task task, List<Task> tasksList, String tempTextOfTask, Integer tempSelectedDay, Integer tempSelectedMonth) {
+        task = new Task(tempTextOfTask);
+        task.setOnTime("");
+        task.setDoBefore(task.getDoBefore().withDayOfMonth(tempSelectedDay));
+        task.setDoBefore(task.getDoBefore().withDayOfMonth(tempSelectedMonth));
+        task.setCreateDate(LocalDate.now());
+        tasksList.add(task);
+        user.setCountAllTasks(task.getNumber());
         user.setTasksList(tasksList);
-        System.out.println(User.ANSI_YELLOW + "\nThese tasks will be saved, if you agree press enter else enter \"edit\"" + User.ANSI_RESET);
-        user.showListTasks();
-        if (reader.nextLine().equalsIgnoreCase("edit")) {
-            editList(user.getTasksList(), user);
-        }
-        user.writeUserToFile();
-        try {
-            user.readUserFromFile();
-        } catch (Exception e) {
-        }
-    }
-
-    /**
-     * Метод відповідає за редагування списку з тасками.
-     * Можливе додавання або видалення тасків з списку.
-     * При додавані викликиється метод {@link TaskEditor#fillList(User, Task, List)}.
-     * При видаленні викликається метод {@link TaskEditor#deleteSomeTasksFromFile(User, String)}.
-     * Після редагування повертаємось в метод {@link TaskEditor#fillList(User, Task, List)},
-     * записуєм user в файл і зчитуєм оновленого
-     *
-     * @param user Об'єкт користувача
-     * @param list Список тасків переданий з {@link TaskEditor#fillList(User, Task, List)}
-     */
-    @Override
-    public void editList(List<Task> list, User user) {
-        System.out.print(User.ANSI_YELLOW + "Bи хочете додати(add) таск чи видалити(del) таск: " + User.ANSI_RESET);
-        String tempString = reader.next();
-        if (tempString.equalsIgnoreCase("add")) {
-            user.fillList();
-        } else {
-            while (true) {
-                if (user.getTasksList().isEmpty()) {
-                    System.out.println(User.ANSI_RED + "У вас немає тасків" + User.ANSI_RESET);
-                    return;
-                }
-                user.showListTasks();
-                System.out.print(User.ANSI_YELLOW + "Який таск за номером ви хочете видалити: " + User.ANSI_RESET);
-                tempString = reader.next();
-                deleteSomeTasksFromFile(user, tempString);
-            }
-        }
+        return task;
     }
 
     /**

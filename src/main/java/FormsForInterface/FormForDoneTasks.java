@@ -3,6 +3,7 @@ package FormsForInterface;
 import TestClasses.Main;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class FormForDoneTasks {
     private JPanel MainPanel;
@@ -16,12 +17,14 @@ public class FormForDoneTasks {
         MainPanel.setVisible(true);
         closeButton.addActionListener((e)->actionForButtonClose(main));
         listOdDoneTasks.setListData(arr);
+        listOdDoneTasks.setForeground(Color.GREEN);
+        listOdDoneTasks.setBackground(Color.DARK_GRAY);
         madeOnTime.setText(onTime);
         madeNotOnTime.setText(notOnTime);
     }
 
     public void actionForButtonClose(Main m){
-        closeButton.setVisible(false);
+        MainPanel.setVisible(false);
         m.showMainPanel();
     }
 }

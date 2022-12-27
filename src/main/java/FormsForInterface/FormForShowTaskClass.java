@@ -19,7 +19,7 @@ public class FormForShowTaskClass {
     }
 
     public void actionForButtonClose(Main m) {
-        closeButton.setVisible(false);
+        showPanel.setVisible(false);
         m.showMainPanel();
     }
 }

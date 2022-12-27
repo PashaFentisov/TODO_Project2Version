@@ -36,9 +36,8 @@ public class TaskShower implements ITaskShower {
     public void showTasksInFile(User user, Main main) {
         try {
             user.readUserFromFile();
-        } catch (Exception e) {
-            System.out.println(User.ANSI_RED + "Your file is empty" + User.ANSI_RESET);
-        }
+        } catch (Exception e) {}
+
         FormForShowTaskClass formForShowTaskClass = new FormForShowTaskClass();
         formForShowTaskClass.show(user.getTasksList().toArray(), main);
     }
@@ -60,9 +59,7 @@ public class TaskShower implements ITaskShower {
         int countOnTime;
         try {
             user.readUserFromFile();
-        } catch (Exception e) {
-            System.out.println(User.ANSI_RED + "Your file is empty" + User.ANSI_RESET);
-        }
+        } catch (Exception e) {}
         countOnTime = (int) user.getTasksList().stream().filter(Task::isDone).filter(t -> t.getOnTime().equalsIgnoreCase("Вчасно")).count();
         FormForDoneTasks form = new FormForDoneTasks();
         form.show(user.getTasksList().stream().filter(Task::isDone).toArray(), ("Виконано вчасно: " + countOnTime), ("Виконано не вчасно: " + (user.getCountDoneTasks() - countOnTime)), main);

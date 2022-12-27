@@ -1,10 +1,13 @@
 package TestClasses;
 
 import Classes.User;
+import FormsForInterface.ClassForFormForFillingListWithTasks;
 import Interfaces.IUser;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  * @author Pasha Fentisov
@@ -12,7 +15,7 @@ import java.awt.*;
  * @since 22.19.22
  */
 
-public class Main {
+public class Main extends WindowAdapter {
     IUser user;
     private static boolean exit;
     private JPanel MainPanel;
@@ -32,12 +35,21 @@ public class Main {
         return mainFrame;
     }
 
+    public void windowClosing(WindowEvent e) {
+        int a=JOptionPane.showConfirmDialog(mainFrame,"Don`t forget to save changes!\n                   Close?", "Confirm closing", 0);
+        if(a==JOptionPane.YES_OPTION){
+            mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        }else if(a == JOptionPane.NO_OPTION){
+            mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        }
+    }
     public Main() {
         apply.setBackground(Color.lightGray);
         user = User.getInstance();
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension d = toolkit.getScreenSize();
         mainFrame = new JFrame("TODO Holder");
+        mainFrame.addWindowListener(this);
         mainFrame.setVisible(true);
         mainFrame.setBounds(d.width / 2 - 400, d.height / 2 - 250, 800, 400);
         mainFrame.setContentPane(MainPanel);
@@ -60,10 +72,11 @@ public class Main {
 
 
     private void actionForButtonApply(Main main) {
+        ClassForFormForFillingListWithTasks classForFormForFillingListWithTasks = new ClassForFormForFillingListWithTasks(main);
         apply.setBackground(Color.lightGray);
         MainPanel.setVisible(false);
         if (firstOption.isSelected()) {
-            user.fillList();
+            classForFormForFillingListWithTasks.show(user);
         } else if (secondOption.isSelected()) {
             user.showTasksInFile(main);
         } else if (thirdOption.isSelected()) {
