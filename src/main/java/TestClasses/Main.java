@@ -58,6 +58,7 @@ public class Main {
         MainPanel.setVisible(true);
     }
 
+
     private void actionForButtonApply(Main main) {
         apply.setBackground(Color.lightGray);
         MainPanel.setVisible(false);

@@ -112,7 +112,7 @@ public class User implements IUser {
     }
     
     /**
-     * Метод для виклику метода {@link TaskShower#showTasksInFile(User)} через об'єкт цього класу.
+     * Метод для виклику метода {@link TaskShower#showTasksInFile(User, Main)} через об'єкт цього класу.
      * Передається this - поточний об'єкт User.
      */
     @Override
