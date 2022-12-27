@@ -84,7 +84,7 @@ public class Main extends WindowAdapter {
         } else if (fourthOption.isSelected()) {
             user.showDoneTasks(main);
         } else if (fifthOption.isSelected()) {
-            user.showTasksInProgress();
+            user.showTasksInProgress(main);
         } else if (sixthOption.isSelected()) {
             user.deleteTasksFromFile();
         } else {

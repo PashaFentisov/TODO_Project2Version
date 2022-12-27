@@ -22,7 +22,7 @@ public interface IUser {
 
     void showDoneTasks(Main main);
 
-    void showTasksInProgress();
+    void showTasksInProgress(Main main);
 
     int getCountDoneTasks();
 

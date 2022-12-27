@@ -3,7 +3,6 @@ package Interfaces;
 import Classes.User;
 import TestClasses.Main;
 
-import javax.swing.*;
 
 public interface ITaskShower {
     void showListTasks(User user);
@@ -12,5 +11,5 @@ public interface ITaskShower {
 
     void showDoneTasks(User user, Main main);
 
-    void showTasksInProgress(User user);
+    void showTasksInProgress(User user, Main main);
 }

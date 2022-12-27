@@ -1,5 +1,6 @@
 package Classes;
 
+import FormsForInterface.ClassForFormShowingTasksInProgress;
 import FormsForInterface.FormForDoneTasks;
 import FormsForInterface.FormForShowTaskClass;
 import Interfaces.ITaskShower;
@@ -78,24 +79,16 @@ public class TaskShower implements ITaskShower {
      * @param user Об'єкт користувача
      */
     @Override
-    public void showTasksInProgress(User user) {
-        int countTime;
-        System.out.println(User.ANSI_RED + "\nНе виконанні завдання" + User.ANSI_RESET);
+    public void showTasksInProgress(User user, Main main) {
+        int countNotOnTime;
+        int countOnTime;
         try {
             user.readUserFromFile();
-        } catch (Exception e) {
-            System.out.println(User.ANSI_RED + "Your file is empty" + User.ANSI_RESET);
-            return;
-        }
-        user.getTasksList().stream().filter(t -> !t.isDone()).forEach(System.out::println);
-        countTime = (int) user.getTasksList().stream().filter(t -> !t.isDone()).map(Task::getDoBefore).filter(t -> t.isBefore(LocalDate.now())).count();
-        if (countTime == 0) {
-            System.out.println(User.ANSI_GREEN + "0 - З пропущеним строком виконання" + User.ANSI_RESET);
-        } else {
-            System.out.println(User.ANSI_RED + countTime + " - З пропущеним строком виконання" + User.ANSI_RESET);
-        }
-        countTime = (int) user.getTasksList().stream().filter(t -> !t.isDone()).count() - countTime;
-        System.out.println(User.ANSI_GREEN + countTime + " - З актуальним строком виконання" + User.ANSI_RESET);
+        } catch (Exception e) {}
+        countNotOnTime = (int) user.getTasksList().stream().filter(t -> !t.isDone()).map(Task::getDoBefore).filter(t -> t.isBefore(LocalDate.now())).count();
+        countOnTime = (int) user.getTasksList().stream().filter(t -> !t.isDone()).count() - countNotOnTime;
+        ClassForFormShowingTasksInProgress classForFormShowingTasksInProgress = new ClassForFormShowingTasksInProgress();
+        classForFormShowingTasksInProgress.show(main, user.getTasksList().stream().filter(t -> !t.isDone()).toArray(), (countNotOnTime + " - З пропущеним строком виконання"), (countOnTime + " - З актуальним строком виконання"));
         user.getTasksList().clear();
     }
 }

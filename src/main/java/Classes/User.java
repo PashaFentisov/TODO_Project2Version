@@ -65,11 +65,10 @@ public class User implements IUser {
         try {
             readUserFromFile();
         } catch (Exception e) {
-            System.out.println(ANSI_RED + "У вас поки немає тасків" + ANSI_RESET);
         }
     }
 
-//    /**
+    //    /**
 //     * Метод для виклику метода {@link TaskEditor#fillList(User, Task, List)} через об'єкт цього класу.
 //     * Передається this - поточний об'єкт User,  task - об'єкт класа Task який заповнюється і додається в список тасків,
 //     * tasksList - список тасків поточного об'єкта класа USer
@@ -102,7 +101,7 @@ public class User implements IUser {
         this.countAllTasks = user.getCountAllTasks();
         Task.setCountOfTasks(user.getCountAllTasks());
     }
-    
+
     /**
      * Метод для виклику метода {@link TaskShower#showListTasks(User)} через об'єкт цього класу.
      * Передається this - поточний об'єкт User.
@@ -111,7 +110,7 @@ public class User implements IUser {
     public void showListTasks() {
         taskShower.showListTasks(this);
     }
-    
+
     /**
      * Метод для виклику метода {@link TaskShower#showTasksInFile(User, Main)} через об'єкт цього класу.
      * Передається this - поточний об'єкт User.
@@ -120,7 +119,7 @@ public class User implements IUser {
     public void showTasksInFile(Main main) {
         taskShower.showTasksInFile(this, main);
     }
-    
+
     /**
      * Метод для виклику метода {@link TaskEditor#deleteTasksFromFile(User)} через об'єкт цього класу.
      * Передається this - поточний об'єкт User.
@@ -129,7 +128,7 @@ public class User implements IUser {
     public void deleteTasksFromFile() {
         taskEditor.deleteTasksFromFile(this);
     }
-    
+
     /**
      * Метод для виклику метода {@link TaskEditor#makeTaskDone(User)} через об'єкт цього класу.
      * Передається this - поточний об'єкт User.
@@ -138,7 +137,7 @@ public class User implements IUser {
     public void makeTaskDone() {
         taskEditor.makeTaskDone(this);
     }
-    
+
     /**
      * Метод для виклику метода {@link TaskShower#showDoneTasks(User, Main)} через об'єкт цього класу.
      * Передається this - поточний об'єкт User.
@@ -147,13 +146,14 @@ public class User implements IUser {
     public void showDoneTasks(Main main) {
         taskShower.showDoneTasks(this, main);
     }
-    /**
-     * Метод для виклику метода {@link TaskShower#showTasksInProgress(User)} через об'єкт цього класу.
-     * Передається this - поточний об'єкт User.
-     */
+
+    //    /**
+//     * Метод для виклику метода {@link TaskShower#showTasksInProgress(User)} через об'єкт цього класу.
+//     * Передається this - поточний об'єкт User.
+//     */
     @Override
-    public void showTasksInProgress() {
-        taskShower.showTasksInProgress(this);
+    public void showTasksInProgress(Main main) {
+        taskShower.showTasksInProgress(this, main);
     }
 
     public int getCountDoneTasks() {
