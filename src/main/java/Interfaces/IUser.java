@@ -18,7 +18,7 @@ public interface IUser {
 
     void deleteTasksFromFile();
 
-    void makeTaskDone();
+    void makeTaskDone(Task doneTask);
 
     void showDoneTasks(Main main);
 

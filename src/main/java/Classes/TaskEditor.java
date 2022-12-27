@@ -22,7 +22,7 @@ public class TaskEditor implements ITaskEditor {
     public TaskEditor() {
     }
 
-//    /**
+    //    /**
 //     * Метод відповідає за наповнення списку тасками.
 //     * Користувач вводить текст, та дату до якої треба виконати переданий task.
 //     * При введені "stop" наповнення списку тасками завершується і вони записуються у файл методом {@link TaskReaderWriter#writeUserToFile(User)}.
@@ -44,7 +44,7 @@ public class TaskEditor implements ITaskEditor {
         task = new Task(tempTextOfTask);
         task.setOnTime("");
         task.setDoBefore(task.getDoBefore().withDayOfMonth(tempSelectedDay));
-        task.setDoBefore(task.getDoBefore().withDayOfMonth(tempSelectedMonth));
+        task.setDoBefore(task.getDoBefore().withMonth(tempSelectedMonth));
         task.setCreateDate(LocalDate.now());
         tasksList.add(task);
         user.setCountAllTasks(task.getNumber());
@@ -208,41 +208,17 @@ public class TaskEditor implements ITaskEditor {
      * @param user Об'єкт користувача
      */
     @Override
-    public void makeTaskDone(User user) {
-        int intTemp;
-        try {
-            user.readUserFromFile();
-        } catch (Exception e) {
-            System.out.println(User.ANSI_RED + "Your file is empty" + User.ANSI_RESET);
-            return;
+    public void makeTaskDone(User user, Task doneTask) {
+        int temp = user.getTasksList().indexOf(doneTask);
+        doneTask.setDoneDate(LocalDate.now());
+        doneTask.setDone(true);
+        if (LocalDate.now().isAfter(doneTask.getDoBefore())) {
+            doneTask.setOnTime("З запізненням");
+        } else {
+            doneTask.setOnTime("Вчасно");
         }
-        while (true) {
-            user.showListTasks();
-            System.out.print(User.ANSI_YELLOW + "Вкажіть номер таску який уже зробили, або натисніть \"enter\": " + User.ANSI_RESET);
-            try {
-                intTemp = Integer.parseInt(reader.next());
-            } catch (Exception e) {
-                break;
-            }
-            if (intTemp - 1 >= user.getTasksList().size()) {
-                System.out.println(User.ANSI_RED + "Такого таску немає, повторіть спробу" + User.ANSI_RESET);
-                continue;
-            }
-            if (user.getTasksList().get(intTemp - 1).isDone()) {
-                System.out.println(User.ANSI_RED + "Цей таск вже помічено як зроблений, повторіть спробу" + User.ANSI_RESET);
-                continue;
-            }
-            if (LocalDate.now().isAfter(user.getTasksList().get(intTemp - 1).getDoBefore())) {
-                user.getTasksList().get(intTemp - 1).setOnTime("З запізненням");
-                user.getTasksList().get(intTemp - 1).setDoneDate(LocalDate.now());
-                user.getTasksList().get(intTemp - 1).setDone(true);
-            } else {
-                user.getTasksList().get(intTemp - 1).setOnTime("Вчасно");
-                user.getTasksList().get(intTemp - 1).setDoneDate(LocalDate.now());
-                user.getTasksList().get(intTemp - 1).setDone(true);
-            }
-            user.setCountDoneTasks(user.getCountDoneTasks() + 1);
-        }
+        user.getTasksList().set(temp, doneTask);
+        user.setCountDoneTasks(user.getCountDoneTasks() + 1);
         user.writeUserToFile();
-    }
+}
 }

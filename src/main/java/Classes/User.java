@@ -130,12 +130,12 @@ public class User implements IUser {
     }
 
     /**
-     * Метод для виклику метода {@link TaskEditor#makeTaskDone(User)} через об'єкт цього класу.
+     * Метод для виклику метода {@link TaskEditor#makeTaskDone(User, Task)} через об'єкт цього класу.
      * Передається this - поточний об'єкт User.
      */
     @Override
-    public void makeTaskDone() {
-        taskEditor.makeTaskDone(this);
+    public void makeTaskDone(Task doneTask) {
+        taskEditor.makeTaskDone(this, doneTask);
     }
 
     /**

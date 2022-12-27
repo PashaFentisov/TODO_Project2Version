@@ -2,6 +2,7 @@ package TestClasses;
 
 import Classes.User;
 import FormsForInterface.ClassForFormForFillingListWithTasks;
+import FormsForInterface.ClassForFormForMakeTaskDone;
 import Interfaces.IUser;
 
 import javax.swing.*;
@@ -73,6 +74,7 @@ public class Main extends WindowAdapter {
 
     private void actionForButtonApply(Main main) {
         ClassForFormForFillingListWithTasks classForFormForFillingListWithTasks = new ClassForFormForFillingListWithTasks(main);
+        ClassForFormForMakeTaskDone classForFormForMakeTaskDone = new ClassForFormForMakeTaskDone(main);
         apply.setBackground(Color.lightGray);
         MainPanel.setVisible(false);
         if (firstOption.isSelected()) {
@@ -80,7 +82,7 @@ public class Main extends WindowAdapter {
         } else if (secondOption.isSelected()) {
             user.showTasksInFile(main);
         } else if (thirdOption.isSelected()) {
-            user.makeTaskDone();
+            classForFormForMakeTaskDone.show(user);
         } else if (fourthOption.isSelected()) {
             user.showDoneTasks(main);
         } else if (fifthOption.isSelected()) {
