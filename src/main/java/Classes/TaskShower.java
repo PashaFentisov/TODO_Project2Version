@@ -38,10 +38,6 @@ public class TaskShower implements ITaskShower {
             user.readUserFromFile();
         } catch (Exception e) {
             System.out.println(User.ANSI_RED + "Your file is empty" + User.ANSI_RESET);
-            return;
-        }
-        if (user.getTasksList().isEmpty()) {
-            System.out.println(User.ANSI_YELLOW + "У вас поки немає тасків" + User.ANSI_RESET);
         }
         FormForShowTaskClass formForShowTaskClass = new FormForShowTaskClass();
         formForShowTaskClass.show(user.getTasksList().toArray(), main);
@@ -62,12 +58,10 @@ public class TaskShower implements ITaskShower {
     @Override
     public void showDoneTasks(User user, Main main) {
         int countOnTime;
-        System.out.println(User.ANSI_GREEN + "Виконанні таски " + User.ANSI_RESET);
         try {
             user.readUserFromFile();
         } catch (Exception e) {
             System.out.println(User.ANSI_RED + "Your file is empty" + User.ANSI_RESET);
-            return;
         }
         countOnTime = (int) user.getTasksList().stream().filter(Task::isDone).filter(t -> t.getOnTime().equalsIgnoreCase("Вчасно")).count();
         FormForDoneTasks form = new FormForDoneTasks();
