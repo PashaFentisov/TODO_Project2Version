@@ -1,6 +1,7 @@
 package Interfaces;
 
 import Classes.Task;
+import TestClasses.Main;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface IUser {
 
     void showListTasks();
 
-    void showTasksInFile();
+    void showTasksInFile(Main main);
 
     void editList();
 
@@ -21,7 +22,7 @@ public interface IUser {
 
     void makeTaskDone();
 
-    void showDoneTasks();
+    void showDoneTasks(Main main);
 
     void showTasksInProgress();
 

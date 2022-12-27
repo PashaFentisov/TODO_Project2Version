@@ -1,7 +1,11 @@
 package Classes;
 
+import FormsForInterface.FormForDoneTasks;
+import FormsForInterface.FormForShowTaskClass;
 import Interfaces.ITaskShower;
+import TestClasses.Main;
 
+import javax.swing.*;
 import java.time.LocalDate;
 
 
@@ -30,7 +34,7 @@ public class TaskShower implements ITaskShower {
      * @param user Об'єкт користувача
      */
     @Override
-    public void showTasksInFile(User user) {
+    public void showTasksInFile(User user, Main main) {
         try {
             user.readUserFromFile();
         } catch (Exception e) {
@@ -40,9 +44,11 @@ public class TaskShower implements ITaskShower {
         if (user.getTasksList().isEmpty()) {
             System.out.println(User.ANSI_YELLOW + "У вас поки немає тасків" + User.ANSI_RESET);
         }
-        System.out.println(User.ANSI_YELLOW + "Ваші таски" + User.ANSI_RESET);
-        user.getTasksList().forEach(System.out::println);
+        FormForShowTaskClass formForShowTaskClass = new FormForShowTaskClass();
+        formForShowTaskClass.show(user.getTasksList().toArray(), main);
     }
+
+
 
     /**
      * Метод призначений для виводу всіх виконаних тасків.
@@ -55,7 +61,7 @@ public class TaskShower implements ITaskShower {
      * @param user Об'єкт користувача
      */
     @Override
-    public void showDoneTasks(User user) {
+    public void showDoneTasks(User user, Main main) {
         int countOnTime;
         System.out.println(User.ANSI_GREEN + "Виконанні таски " + User.ANSI_RESET);
         try {
@@ -65,11 +71,11 @@ public class TaskShower implements ITaskShower {
             return;
         }
         countOnTime = (int) user.getTasksList().stream().filter(Task::isDone).filter(t -> t.getOnTime().equalsIgnoreCase("Вчасно")).count();
-        user.getTasksList().stream().filter(Task::isDone).forEach(System.out::println);
-        System.out.println(User.ANSI_GREEN + "\nВиконано вчасно: " + countOnTime + User.ANSI_RESET);
-        System.out.println(User.ANSI_RED + "Виконано не вчасно: " + (user.getCountDoneTasks() - countOnTime) + User.ANSI_RESET);
+        FormForDoneTasks form = new FormForDoneTasks();
+        form.show(user.getTasksList().stream().filter(Task::isDone).toArray(), ("Виконано вчасно: " + countOnTime), ("Виконано не вчасно: " + (user.getCountDoneTasks() - countOnTime)), main);
         user.getTasksList().clear();
     }
+
 
     /**
      * Метод призначений для виводу всіх ще не виконаних тасків.

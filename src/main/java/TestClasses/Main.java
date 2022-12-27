@@ -2,7 +2,9 @@ package TestClasses;
 
 import Classes.User;
 import Interfaces.IUser;
-import ServiceClasses.OwnReader;
+
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * @author Pasha Fentisov
@@ -11,51 +13,74 @@ import ServiceClasses.OwnReader;
  */
 
 public class Main {
-    private static final OwnReader reader = new OwnReader();
+    IUser user;
     private static boolean exit;
+    private JPanel MainPanel;
+    private JRadioButton sixthOption;
+    private JRadioButton firstOption;
+    private JRadioButton fifthOption;
+    private JRadioButton fourthOption;
+    private JRadioButton thirdOption;
+    private JRadioButton secondOption;
+    private JButton apply;
+    private JLabel ChooseOption;
+    private JButton exitButton;
 
-    public static void main(String[] args) {
-        IUser user = User.getInstatnce();
-        while (!exit) {
-            method(user);
+    private JFrame mainFrame;
+
+    public JFrame getMainFrame() {
+        return mainFrame;
+    }
+
+    public Main() {
+        apply.setBackground(Color.lightGray);
+        user = User.getInstance();
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension d = toolkit.getScreenSize();
+        mainFrame = new JFrame("TODO Holder");
+        mainFrame.setVisible(true);
+        mainFrame.setBounds(d.width / 2 - 400, d.height / 2 - 250, 800, 400);
+        mainFrame.setContentPane(MainPanel);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        ButtonGroup group = new ButtonGroup();
+        group.add(firstOption);
+        group.add(secondOption);
+        group.add(thirdOption);
+        group.add(fourthOption);
+        group.add(fifthOption);
+        group.add(sixthOption);
+        apply.addActionListener((e) -> actionForButtonApply(this));
+        exitButton.addActionListener((r) -> System.exit(0));
+    }
+
+    public void showMainPanel() {
+        mainFrame.setContentPane(MainPanel);
+        MainPanel.setVisible(true);
+    }
+
+    private void actionForButtonApply(Main main) {
+        apply.setBackground(Color.lightGray);
+        MainPanel.setVisible(false);
+        if (firstOption.isSelected()) {
+            user.fillList();
+        } else if (secondOption.isSelected()) {
+            user.showTasksInFile(main);
+        } else if (thirdOption.isSelected()) {
+            user.makeTaskDone();
+        } else if (fourthOption.isSelected()) {
+            user.showDoneTasks(main);
+        } else if (fifthOption.isSelected()) {
+            user.showTasksInProgress();
+        } else if (sixthOption.isSelected()) {
+            user.deleteTasksFromFile();
+        } else {
+            MainPanel.setVisible(true);
+            apply.setBackground(Color.red);
         }
     }
 
-    public static void method(IUser user) {
-        System.out.println(User.ANSI_YELLOW + "Можливі функції" + User.ANSI_RESET);
-        System.out.println("""
-                1.0 Заповнити список завданнями - fillList
-                2.0 Подивитись завдання в файлі - showTasksInFile
-                3.0 Помітити завдання як виконане(DONE)- makeTaskDone
-                4.0 Подивитись виконані завдання - showDoneTasks
-                5.0 Подивитись завдання в прогрессі - showTasksInProgress
-                6.0 Видалити завдання з файлу - deleteTasksFromFile""");
-        System.out.print(User.ANSI_YELLOW + "Введіть номер функції яку хочете використати, або натисніть \"enter\": " + User.ANSI_RESET);
-        String s = reader.next();
-        if (s.isEmpty()) {
-            exit = true;
-        }
-        switch (s) {
-            case "1":
-                user.fillList();
-                break;
-            case "2":
-                user.showTasksInFile();
-                break;
-            case "3":
-                user.makeTaskDone();
-                break;
-            case "4":
-                user.showDoneTasks();
-                break;
-            case "5":
-                user.showTasksInProgress();
-                break;
-            case "6":
-                user.deleteTasksFromFile();
-                break;
-            default:
-                break;
-        }
+    public static void main(String[] args) {
+        Main main = new Main();
+        main.showMainPanel();
     }
 }

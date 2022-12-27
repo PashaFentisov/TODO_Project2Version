@@ -5,6 +5,7 @@ import Interfaces.ITaskReaderWriter;
 import Interfaces.ITaskShower;
 import Interfaces.IUser;
 import ServiceClasses.OwnReader;
+import TestClasses.Main;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -50,7 +51,7 @@ public class User implements IUser {
      *
      * @return Об'єкт User
      */
-    public synchronized static IUser getInstatnce() {
+    public synchronized static IUser getInstance() {
         if (user == null) {
             user = new User(new TaskEditor(new OwnReader()), new TaskShower(), new TaskReaderWriter());
         }
@@ -115,8 +116,8 @@ public class User implements IUser {
      * Передається this - поточний об'єкт User.
      */
     @Override
-    public void showTasksInFile() {
-        taskShower.showTasksInFile(this);
+    public void showTasksInFile(Main main) {
+        taskShower.showTasksInFile(this, main);
     }
     
     /**
@@ -147,12 +148,12 @@ public class User implements IUser {
     }
     
     /**
-     * Метод для виклику метода {@link TaskShower#showDoneTasks(User)} через об'єкт цього класу.
+     * Метод для виклику метода {@link TaskShower#showDoneTasks(User, Main)} через об'єкт цього класу.
      * Передається this - поточний об'єкт User.
      */
     @Override
-    public void showDoneTasks() {
-        taskShower.showDoneTasks(this);
+    public void showDoneTasks(Main main) {
+        taskShower.showDoneTasks(this, main);
     }
     /**
      * Метод для виклику метода {@link TaskShower#showTasksInProgress(User)} через об'єкт цього класу.
