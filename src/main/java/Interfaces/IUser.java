@@ -12,11 +12,7 @@ public interface IUser {
 
     void readUserFromFile();
 
-    void showListTasks();
-
     void showTasksInFile(Main main);
-
-    void deleteTasksFromFile();
 
     void makeTaskDone(Task doneTask);
 
@@ -36,4 +32,9 @@ public interface IUser {
 
     void setCountAllTasks(int countAllTasks);
 
+    void deleteSelectedTasksFromFile(Task task);
+
+    void deleteAllTasksFromFile();
+
+    void deleteDoneTasksFromFile();
 }

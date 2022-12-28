@@ -1,6 +1,7 @@
 package TestClasses;
 
 import Classes.User;
+import FormsForInterface.ClassForFormForDeletingTasks;
 import FormsForInterface.ClassForFormForFillingListWithTasks;
 import FormsForInterface.ClassForFormForMakeTaskDone;
 import Interfaces.IUser;
@@ -12,13 +13,12 @@ import java.awt.event.WindowEvent;
 
 /**
  * @author Pasha Fentisov
- * @version 2.0
- * @since 22.19.22
+ * @version 3.0
+ * @since 29.19.22
  */
 
 public class Main extends WindowAdapter {
     IUser user;
-    private static boolean exit;
     private JPanel MainPanel;
     private JRadioButton sixthOption;
     private JRadioButton firstOption;
@@ -27,7 +27,6 @@ public class Main extends WindowAdapter {
     private JRadioButton thirdOption;
     private JRadioButton secondOption;
     private JButton apply;
-    private JLabel ChooseOption;
     private JButton exitButton;
 
     private JFrame mainFrame;
@@ -52,7 +51,7 @@ public class Main extends WindowAdapter {
         mainFrame = new JFrame("TODO Holder");
         mainFrame.addWindowListener(this);
         mainFrame.setVisible(true);
-        mainFrame.setBounds(d.width / 2 - 400, d.height / 2 - 250, 800, 400);
+        mainFrame.setBounds(d.width / 2 - 450, d.height / 2 - 250, 900, 400);
         mainFrame.setContentPane(MainPanel);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         ButtonGroup group = new ButtonGroup();
@@ -75,6 +74,7 @@ public class Main extends WindowAdapter {
     private void actionForButtonApply(Main main) {
         ClassForFormForFillingListWithTasks classForFormForFillingListWithTasks = new ClassForFormForFillingListWithTasks(main);
         ClassForFormForMakeTaskDone classForFormForMakeTaskDone = new ClassForFormForMakeTaskDone(main);
+        ClassForFormForDeletingTasks classForFormForDeletingTasks = new ClassForFormForDeletingTasks(main);
         apply.setBackground(Color.lightGray);
         MainPanel.setVisible(false);
         if (firstOption.isSelected()) {
@@ -88,7 +88,7 @@ public class Main extends WindowAdapter {
         } else if (fifthOption.isSelected()) {
             user.showTasksInProgress(main);
         } else if (sixthOption.isSelected()) {
-            user.deleteTasksFromFile();
+            classForFormForDeletingTasks.show(user);
         } else {
             MainPanel.setVisible(true);
             apply.setBackground(Color.red);

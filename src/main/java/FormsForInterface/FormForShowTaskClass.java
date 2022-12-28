@@ -6,7 +6,6 @@ import javax.swing.*;
 
 public class FormForShowTaskClass {
     private JPanel showPanel;
-    private JLabel currentTasks;
     private JList ListOfTasks;
     private JButton closeButton;
 
@@ -15,7 +14,6 @@ public class FormForShowTaskClass {
         showPanel.setVisible(true);
         closeButton.addActionListener((e) -> actionForButtonClose(main));
         ListOfTasks.setListData(arr);
-
     }
 
     public void actionForButtonClose(Main m) {

@@ -18,17 +18,6 @@ public class TaskShower implements ITaskShower {
     }
 
     /**
-     * Метод виводить всі таски які знаходяться в списку переданого user.
-     *
-     * @param user Об'єкт користувача
-     */
-    @Override
-    public void showListTasks(User user) {
-        System.out.println(User.ANSI_YELLOW + "Ваші таски" + User.ANSI_RESET);
-        user.getTasksList().forEach(System.out::println);
-    }
-
-    /**
      * Метод для зчитування з файлу об'єкта User методом {@link TaskReaderWriter#readUserFromFile()} і виводу всіх тасків які є у його списку.
      *
      * @param user Об'єкт користувача

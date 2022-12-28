@@ -10,7 +10,6 @@ public class ClassForFormForMakeTaskDone {
     private JList listOfTasksWillBeDone;
     private JButton DONEButton;
     private JButton backButton;
-    private JLabel Label;
     private Main main;
 
     public ClassForFormForMakeTaskDone(Main main) {

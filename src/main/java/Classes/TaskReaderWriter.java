@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+import javax.swing.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -35,7 +36,7 @@ public class TaskReaderWriter implements ITaskReaderWriter {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(User.file))) {
             writer.write(temp);
         } catch (Exception e) {
-            System.out.println(User.ANSI_RED + "File not found!" + User.ANSI_RESET);
+            JOptionPane.showMessageDialog(new JFrame(),"File not found","Alert",JOptionPane.ERROR_MESSAGE);
         }
         user.getTasksList().clear();
     }

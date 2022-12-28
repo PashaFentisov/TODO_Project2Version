@@ -3,7 +3,6 @@ package Interfaces;
 import java.time.LocalDate;
 
 public interface ITask {
-
     String getText();
 
     void setText(String text);

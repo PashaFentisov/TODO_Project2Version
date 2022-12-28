@@ -27,6 +27,9 @@ public class ClassForFormForFillingListWithTasks {
     }
 
     public void show(IUser user){
+        try{
+            user.readUserFromFile();
+        }catch(Exception e){}
         main.getMainFrame().setContentPane(MainPanel);
         MainPanel.setVisible(true);
         backButton.addActionListener((e)->actionForBackButton(user));
@@ -70,6 +73,7 @@ public class ClassForFormForFillingListWithTasks {
                    user.setCountDoneTasks(user.getCountDoneTasks()-1);
                }
                user.setCountAllTasks(user.getCountAllTasks()-1);
+               Task.setCountOfTasks(Task.getCountOfTasks()-1);
             }
         }
     }

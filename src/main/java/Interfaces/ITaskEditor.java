@@ -1,12 +1,13 @@
 package Interfaces;
 
 import Classes.Task;
-import Classes.User;
 
 import java.util.List;
 
 public interface ITaskEditor {
-    Task fillList(User user, Task task, List<Task> tasksList, String tempTextOfTask, Integer tempSelectedDay, Integer tempSelectedMonth);
-    void deleteTasksFromFile(User user);
-    void makeTaskDone(User user, Task doneTask);
+    Task fillList(IUser user, Task task, List<Task> tasksList, String tempTextOfTask, Integer tempSelectedDay, Integer tempSelectedMonth);
+    void makeTaskDone(IUser user, Task doneTask);
+    void deleteSelectedTasksFromFile(IUser user, Task task);
+    void deleteAllTasksFromFile(IUser user);
+    void deleteDoneTasksFromFile(IUser user);
 }

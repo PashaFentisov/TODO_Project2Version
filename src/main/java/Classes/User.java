@@ -17,23 +17,6 @@ import java.util.List;
 public class User implements IUser {
     private int countDoneTasks = 0;
     private int countAllTasks = 0;
-
-    /**
-     * Поле для виводу тексту в різних кольорах
-     */
-    public static final String ANSI_RESET = "\u001B[0m";
-    /**
-     * Поле для виводу тексту в різних кольорах
-     */
-    public static final String ANSI_GREEN = "\u001B[32m";
-    /**
-     * Поле для виводу тексту в різних кольорах
-     */
-    public static final String ANSI_RED = "\u001B[31m";
-    /**
-     * Поле для виводу тексту в різних кольорах
-     */
-    public static final String ANSI_YELLOW = "\u001B[33m";
     public static File file = new File("user.json");
     private List<Task> tasksList = new LinkedList<>();
     private Task task;
@@ -103,15 +86,6 @@ public class User implements IUser {
     }
 
     /**
-     * Метод для виклику метода {@link TaskShower#showListTasks(User)} через об'єкт цього класу.
-     * Передається this - поточний об'єкт User.
-     */
-    @Override
-    public void showListTasks() {
-        taskShower.showListTasks(this);
-    }
-
-    /**
      * Метод для виклику метода {@link TaskShower#showTasksInFile(User, Main)} через об'єкт цього класу.
      * Передається this - поточний об'єкт User.
      */
@@ -121,16 +95,7 @@ public class User implements IUser {
     }
 
     /**
-     * Метод для виклику метода {@link TaskEditor#deleteTasksFromFile(User)} через об'єкт цього класу.
-     * Передається this - поточний об'єкт User.
-     */
-    @Override
-    public void deleteTasksFromFile() {
-        taskEditor.deleteTasksFromFile(this);
-    }
-
-    /**
-     * Метод для виклику метода {@link TaskEditor#makeTaskDone(User, Task)} через об'єкт цього класу.
+     * Метод для виклику метода {@link TaskEditor#makeTaskDone(IUser, Task)} через об'єкт цього класу.
      * Передається this - поточний об'єкт User.
      */
     @Override
@@ -147,13 +112,28 @@ public class User implements IUser {
         taskShower.showDoneTasks(this, main);
     }
 
-    //    /**
-//     * Метод для виклику метода {@link TaskShower#showTasksInProgress(User)} через об'єкт цього класу.
-//     * Передається this - поточний об'єкт User.
-//     */
+    /**
+     * Метод для виклику метода {@link TaskShower#showTasksInProgress(User, Main)} через об'єкт цього класу.
+     * Передається this - поточний об'єкт User.
+     */
     @Override
     public void showTasksInProgress(Main main) {
         taskShower.showTasksInProgress(this, main);
+    }
+
+    @Override
+    public void deleteSelectedTasksFromFile(Task task) {
+        taskEditor.deleteSelectedTasksFromFile(this, task);
+    }
+
+    @Override
+    public void deleteAllTasksFromFile() {
+        taskEditor.deleteAllTasksFromFile(this);
+    }
+
+    @Override
+    public void deleteDoneTasksFromFile() {
+        taskEditor.deleteDoneTasksFromFile(this);
     }
 
     public int getCountDoneTasks() {

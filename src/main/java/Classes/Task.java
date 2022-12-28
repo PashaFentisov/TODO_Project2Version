@@ -132,29 +132,19 @@ public class Task implements ITask, Comparable<Task> {
             if (p.getMonths() < 0 || p.getDays() < 0) {
                 throw new Exception();
             }
-            temp = String.format("%s month %s days", p.getMonths(), p.getDays());
+            temp = String.format("%-3s month %-4s days", p.getMonths(), p.getDays());
         } catch (Exception e) {
             temp = "Час сплинув";
         }
-        temp = (isDone) ? String.format("%-12s %s %s", "DONE", doneDate.format(Task.getFormatForDateOfMade()), isOnTime) : temp;
-        if (isOnTime.equalsIgnoreCase("Вчасно")) {
-            return String.format(User.ANSI_GREEN + "Task %d: %-50s задано: %-20s Виконати до: %-15s %s" + User.ANSI_RESET, number, text,
-                    createDate.format(formatForDateOfMade),
-                    doBefore.format(formatForExpiryDate), temp);
-        } else if (isOnTime.equalsIgnoreCase("З запізненням")) {
-            return String.format(User.ANSI_RED + "Task %d: %-50s задано: %-20s Виконати до: %-15s %s" + User.ANSI_RESET, number, text,
+        temp = (isDone) ? String.format("%-12s %-20s %-15s", "DONE", doneDate.format(Task.getFormatForDateOfMade()), isOnTime) : temp;
+        if (isDone) {
+            return String.format("%-4s %-2d %-2s %-50s %-10s %-25s Виконати до: %-15s %s","Task",  number, ":", text, "задано:",
                     createDate.format(formatForDateOfMade),
                     doBefore.format(formatForExpiryDate), temp);
         } else {
-            if (temp.equalsIgnoreCase("Час сплинув")) {
-                return String.format("Task %d: %-50s задано: %-20s Виконати до: %-15s залишилось :" + User.ANSI_RED + " %s " + User.ANSI_RESET, number, text,
-                        createDate.format(formatForDateOfMade),
-                        doBefore.format(formatForExpiryDate), temp);
-            } else {
-                return String.format("Task %d: %-50s задано: %-20s Виконати до: %-15s залишилось : %s ", number, text,
-                        createDate.format(formatForDateOfMade),
-                        doBefore.format(formatForExpiryDate), temp);
-            }
+            return String.format("%-4s %-2d %-2s %-50s %-10s %-25s Виконати до: %-15s залишилось : %-6s ", "Task", number,":", text, "задано:",
+                    createDate.format(formatForDateOfMade),
+                    doBefore.format(formatForExpiryDate), temp);
         }
     }
 
@@ -174,8 +164,8 @@ public class Task implements ITask, Comparable<Task> {
     @Override
     public int compareTo(Task o) {
         int temp = this.text.compareTo(o.text);
-        if(temp == 0){
-            temp = this.number-o.number;
+        if (temp == 0) {
+            temp = this.number - o.number;
         }
         return temp;
     }
