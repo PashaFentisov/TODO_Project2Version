@@ -120,7 +120,7 @@ public class Task implements ITask, Comparable<Task> {
      * Для не виконаних тасків задається temp - час скільки залишолось часу до дедлайна.
      * Якщо дедлайн прострочено то temp = "Час сплинув".
      * Якщо поле isDone для task позначено як true, то temp присвоюється приставка "DONE",
-     * час коли таск було виконано і "Вчасно" або "З запізненням".
+     * і час коли таск було виконано і "Вчасно" або "З запізненням".
      *
      * @return Строковий опис таска
      */
@@ -138,11 +138,11 @@ public class Task implements ITask, Comparable<Task> {
         }
         temp = (isDone) ? String.format("%-12s %-20s %-15s", "DONE", doneDate.format(Task.getFormatForDateOfMade()), isOnTime) : temp;
         if (isDone) {
-            return String.format("%-4s %-2d %-2s %-50s %-10s %-25s Виконати до: %-15s %s","Task",  number, ":", text, "задано:",
+            return String.format("%-4s %-2d %-2s %-50s %-10s %-25s Виконати до: %-15s %s", "Task", number, ":", text, "задано:",
                     createDate.format(formatForDateOfMade),
                     doBefore.format(formatForExpiryDate), temp);
         } else {
-            return String.format("%-4s %-2d %-2s %-50s %-10s %-25s Виконати до: %-15s залишилось : %-6s ", "Task", number,":", text, "задано:",
+            return String.format("%-4s %-2d %-2s %-50s %-10s %-25s Виконати до: %-15s залишилось : %-6s ", "Task", number, ":", text, "задано:",
                     createDate.format(formatForDateOfMade),
                     doBefore.format(formatForExpiryDate), temp);
         }

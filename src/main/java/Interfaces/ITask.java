@@ -26,4 +26,8 @@ public interface ITask {
     int getNumber();
 
     void setNumber(int number);
+
+    LocalDate getCreateDate();
+
+    void setCreateDate(LocalDate createDate);
 }

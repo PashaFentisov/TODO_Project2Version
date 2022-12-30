@@ -4,6 +4,9 @@ import Classes.User;
 import FormsForInterface.ClassForFormForDeletingTasks;
 import FormsForInterface.ClassForFormForFillingListWithTasks;
 import FormsForInterface.ClassForFormForMakeTaskDone;
+import Interfaces.IClassForFormForDeletingTasks;
+import Interfaces.IClassForFormForFillingListWithTasks;
+import Interfaces.IClassForFormForMakeTaskDone;
 import Interfaces.IUser;
 
 import javax.swing.*;
@@ -18,7 +21,10 @@ import java.awt.event.WindowEvent;
  */
 
 public class Main extends WindowAdapter {
-    IUser user;
+    private IUser user;
+    private IClassForFormForFillingListWithTasks classForFormForFillingListWithTasks = new ClassForFormForFillingListWithTasks(this);
+    private IClassForFormForMakeTaskDone classForFormForMakeTaskDone = new ClassForFormForMakeTaskDone(this);
+    private IClassForFormForDeletingTasks classForFormForDeletingTasks = new ClassForFormForDeletingTasks(this);
     private JPanel MainPanel;
     private JRadioButton sixthOption;
     private JRadioButton firstOption;
@@ -35,14 +41,24 @@ public class Main extends WindowAdapter {
         return mainFrame;
     }
 
+
+    /**
+     * При закритті додатка, з'явиться вікно з попередженням.
+     *
+     * @param e the event to be processed
+     */
     public void windowClosing(WindowEvent e) {
-        int a=JOptionPane.showConfirmDialog(mainFrame,"Don`t forget to save changes!\n                   Close?", "Confirm closing", 0);
-        if(a==JOptionPane.YES_OPTION){
+        int a = JOptionPane.showConfirmDialog(mainFrame, "Don`t forget to save changes!\n                   Close?", "Confirm closing", 0);
+        if (a == JOptionPane.YES_OPTION) {
             mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        }else if(a == JOptionPane.NO_OPTION){
+        } else if (a == JOptionPane.NO_OPTION) {
             mainFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         }
     }
+
+    /**
+     * Конструктор класа Main, виконується на початку, для початкових налаштувань вікна.
+     */
     public Main() {
         apply.setBackground(Color.lightGray);
         user = User.getInstance();
@@ -65,16 +81,21 @@ public class Main extends WindowAdapter {
         exitButton.addActionListener((r) -> System.exit(0));
     }
 
+    /**
+     * Викликається для переходу на головне вікно.
+     */
     public void showMainPanel() {
         mainFrame.setContentPane(MainPanel);
         MainPanel.setVisible(true);
     }
 
 
+    /**
+     * При виборі потрібної опції викликається метод який її виконує і відкривається нове вікно.
+     *
+     * @param main поточний об'єкт Main класа
+     */
     private void actionForButtonApply(Main main) {
-        ClassForFormForFillingListWithTasks classForFormForFillingListWithTasks = new ClassForFormForFillingListWithTasks(main);
-        ClassForFormForMakeTaskDone classForFormForMakeTaskDone = new ClassForFormForMakeTaskDone(main);
-        ClassForFormForDeletingTasks classForFormForDeletingTasks = new ClassForFormForDeletingTasks(main);
         apply.setBackground(Color.lightGray);
         MainPanel.setVisible(false);
         if (firstOption.isSelected()) {

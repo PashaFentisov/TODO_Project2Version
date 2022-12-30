@@ -23,23 +23,24 @@ public class TaskEditor implements ITaskEditor {
     public TaskEditor() {
     }
 
-    //    /**
-//     * Метод відповідає за наповнення списку тасками.
-//     * Користувач вводить текст, та дату до якої треба виконати переданий task.
-//     * При введені "stop" наповнення списку тасками завершується і вони записуються у файл методом {@link TaskReaderWriter#writeUserToFile(User)}.
-//     * Для task початково поле isOnTime задається як пусте, щоб уникнути nullPointerException.
-//     * При введенні дати до якої треба виконати таск проводиться перевірка на коректність,
-//     * якщо вона не пройдена то полю doBefore присвоюється поточна дата.
-//     * Рік для doBefore за змовченням задається поточний.
-//     * Для переданого user встановлює кількість тасків на + 1 з кожним доданим таском.
-//     * Якщо користувач хоче змінити список перед записом до файлу викликається метод  {@link TaskEditor#editList(List, User)},
-//     * після редагування об'єкт user з списком тасків записується у файл методом {@link TaskReaderWriter#writeUserToFile(User)}.
-//     * І з файлу зчитується оновлений об'єкт user методом {@link TaskReaderWriter#readUserFromFile()}.
-//     *
-//     * @param user      Об'єкт користувача
-//     * @param task      Таск
-//     * @param tasksList Список тасків
-//     */
+
+    /**
+     * Метод відповідає за наповнення списку тасками.
+     * Користувач вводить текст, та дату до якої треба виконати task.
+     * Для task початково поле isOnTime задається як пусте, щоб уникнути nullPointerException.
+     * При введенні дати до якої треба виконати таск проводиться перевірка на коректність,
+     * Рік для doBefore за змовченням задається поточний.
+     * Для переданого user встановлює кількість тасків на + 1 з кожним доданим таском.
+     * Для отриманого User в список додається відредагований таск.
+     *
+     * @param user              Об'єкт користувача
+     * @param task              Таск
+     * @param tasksList         Список тасків
+     * @param tempTextOfTask    Текст таску
+     * @param tempSelectedDay   День до якого треба виконати таск
+     * @param tempSelectedMonth Місяць до якого треба виконати таск
+     * @return created task
+     */
     @Override
     public Task fillList(IUser user, Task task, List<Task> tasksList, String tempTextOfTask, Integer tempSelectedDay, Integer tempSelectedMonth) {
         task = new Task(tempTextOfTask);
@@ -48,21 +49,19 @@ public class TaskEditor implements ITaskEditor {
         task.setDoBefore(task.getDoBefore().withMonth(tempSelectedMonth));
         task.setCreateDate(LocalDate.now());
         tasksList.add(task);
-        user.setCountAllTasks(user.getCountAllTasks()+1);
+        user.setCountAllTasks(user.getCountAllTasks() + 1);
         user.setTasksList(tasksList);
         return task;
     }
-//
-//    /**
-//     * Метод дозволяє видалити всі таски з файлу.
-//     * Це службовий метод який викликається в методі {@link TaskEditor#deleteTasksFromFile(User)}.
-//     * Для отриманого user очищається список тасків.
-//     * Поля countAllTasks і countDoneTasks приймають значення 0
-//     * user з такими значеннями записується у файл методом {@link TaskReaderWriter#writeUserToFile(User)}.
-//     * Після цього методу робота метода {@link TaskEditor#deleteTasksFromFile(User)} завершується
-//     *
-//     * @param user Об'єкт користувача
-//     */
+
+    /**
+     * Метод дозволяє видалити всі таски з файлу.
+     * Для отриманого user очищається список тасків.
+     * Поля countAllTasks і countDoneTasks приймають значення 0
+     * user з такими значеннями записується у файл методом {@link TaskReaderWriter#writeUserToFile(IUser)}.
+     *
+     * @param user Об'єкт користувача
+     */
     public void deleteAllTasksFromFile(IUser user) {
         user.getTasksList().clear();
         user.setCountAllTasks(0);
@@ -70,17 +69,14 @@ public class TaskEditor implements ITaskEditor {
         user.writeUserToFile();
     }
 
-//    /**
-//     * Метод дозволяє видалити всі зроблені таски з файлу.
-//     * Це службовий метод який викликається в методі {@link TaskEditor#deleteTasksFromFile(User)}.
-//     * Список з тасками перебирається в циклі і якщо у таска поле isDone = true,
-//     * то цей таск видаляється.
-//     * При цьому у отриманого user поля countAllTasks і countDoneTasks зменшуються на 1 при кожному видалені.
-//     * В вкладеному циклі номера тасків (поле number) зменшуються на 1 при видалені попереднього.
-//     * Після роботи цього метода робота метода {@link TaskEditor#deleteTasksFromFile(User)} продовжується.
-//     *
-//     * @param user Об'єкт користувача
-//     */
+    /**
+     * Метод дозволяє видалити всі зроблені таски з файлу.
+     * Список з тасками перебирається в циклі і якщо у таска поле isDone = true, то цей таск видаляється.
+     * При цьому у отриманого user поля countAllTasks і countDoneTasks зменшуються на 1 при кожному видалені.
+     * В вкладеному циклі номера тасків (поле number) зменшуються на 1 при видалені попереднього.
+     *
+     * @param user Об'єкт користувача
+     */
     public void deleteDoneTasksFromFile(IUser user) {
         user.setCountDoneTasks(0);
         for (int i = 0; i < user.getTasksList().size(); i++) {
@@ -98,20 +94,15 @@ public class TaskEditor implements ITaskEditor {
         user.writeUserToFile();
     }
 
-    //    /**
-//     * Метод дозволяє видалити таск з списку по переданому індексу.
-//     * Це службовий метод який викликається в методі {@link TaskEditor#deleteTasksFromFile(User)}.
-//     * Якщо передано неправильне значення робота метода завершується.
-//     * В циклі співставляються номера тасків і передане значення.
-//     * Якщо номер таску (поле number) = переданому значенню таск видаляється,
-//     * якщо він був помічений як DONE то поле countDoneTasks для отриманого user зменшується на 1.
-//     * Для отриманого user поле countAllTasks зменшується на 1 при кожному видалені
-//     * В вкладеному циклі номера тасків (поле number) зменшуються на 1 при видалені попереднього.
-//     * Після роботи цього метода робота метода {@link TaskEditor#deleteTasksFromFile(User)} продовжується.
-//     *
-//     * @param user Об'єкт користувача
-//     * @param temp індекс таска в списку який буде видалено
-//     */
+    /**
+     * Метод видаляє отриманий таск з списку.
+     * Якщо він був помічений як DONE то поле countDoneTasks для отриманого user зменшується на 1.
+     * Для отриманого user поле countAllTasks зменшується на 1 при кожному видалені
+     * В циклі номера тасків (поле number) зменшуються на 1 при видалені попереднього.
+     *
+     * @param user Об'єкт користувача
+     * @param task таск який буде видалено
+     */
     public void deleteSelectedTasksFromFile(IUser user, Task task) {
         for (int k = 0; k < user.getTasksList().size(); k++) {
             if (user.getTasksList().get(k).getNumber() > task.getNumber()) {
@@ -126,22 +117,18 @@ public class TaskEditor implements ITaskEditor {
         user.writeUserToFile();
     }
 
-//    /**
-//     * Метод помічає таск як виконаний.
-//     * Читаємо список тасків з файлу методом {@link TaskReaderWriter#readUserFromFile()}, якщо тасків ще не має то метод закінчує роботу.
-//     * Виводимо список тасків які є методом - {@link TaskShower#showListTasks(User)}.
-//     * Користувач може ввести номер таску який хоче помітити як DONE.
-//     * Або натиснути "enter" і вийти з редагування
-//     * Проводиться перевірка чи було введено число, чи таск з таким номером є у списку, і чи він ще не помічений як DONE.
-//     * При проходженні всіх перевірок поле isDone у task помічається як true.
-//     * Полю doneDate у task присвоюється поточна дата.
-//     * Полю isOnTime у task просвоюється значення, "Вчасно" якщо таск помічено як Done перед датою яка знаходиться в doBefore поточного task,
-//     * "З запізненням" якщо після doBefore.
-//     * Поле countDoneTasks у user збільшується на 1 з кожним поміченим task.
-//     * Після всіх перетворень відформатований список записується у файл методом - {@link TaskReaderWriter#writeUserToFile(User)}.
-//     *
-//     * @param user Об'єкт користувача
-//     */
+    /**
+     * Метод помічає таск як виконаний.
+     * Користувач обирає таск який хоче помітити як DONE.
+     * Полю doneDate у task присвоюється поточна дата.
+     * Полю isOnTime у task просвоюється значення, "Вчасно" якщо таск помічено як Done перед датою яка знаходиться в doBefore поточного task,
+     * "З запізненням" якщо після doBefore.
+     * Поле countDoneTasks у user збільшується на 1 з кожним поміченим task.
+     * Після всіх перетворень відформатований список записується у файл методом - {@link TaskReaderWriter#writeUserToFile(IUser)}.
+     *
+     * @param user     Об'єкт користувача
+     * @param doneTask Об'єкт користувача
+     */
     @Override
     public void makeTaskDone(IUser user, Task doneTask) {
         int temp = user.getTasksList().indexOf(doneTask);

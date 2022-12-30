@@ -1,13 +1,12 @@
 package Interfaces;
 
-import Classes.User;
 import TestClasses.Main;
 
 
 public interface ITaskShower {
-    void showTasksInFile(User user, Main main);
+    void showTasksInFile(IUser user, Main main);
 
-    void showDoneTasks(User user, Main main);
+    void showDoneTasks(IUser user, Main main);
 
-    void showTasksInProgress(User user, Main main);
+    void showTasksInProgress(IUser user, Main main);
 }

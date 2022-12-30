@@ -1,9 +1,7 @@
 package Interfaces;
 
-import Classes.User;
-
 public interface ITaskReaderWriter {
-    void writeUserToFile(User user);
+    void writeUserToFile(IUser user);
 
-    User readUserFromFile();
+    IUser readUserFromFile();
 }

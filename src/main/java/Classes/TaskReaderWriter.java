@@ -1,6 +1,7 @@
 package Classes;
 
 import Interfaces.ITaskReaderWriter;
+import Interfaces.IUser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,18 +26,18 @@ public class TaskReaderWriter implements ITaskReaderWriter {
      * @param user Об'єкт користувача
      */
     @Override
-    public void writeUserToFile(User user) {
-        String temp;
+    public void writeUserToFile(IUser user) {
+        String temp = "";
         ObjectMapper mapper = new ObjectMapper().configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
         try {
             temp = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(user);
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            JOptionPane.showMessageDialog(new JFrame(), "Problem with json", "Error", JOptionPane.ERROR_MESSAGE);
         }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(User.file))) {
             writer.write(temp);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(new JFrame(),"File not found","Alert",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(new JFrame(), "File not found", "Error", JOptionPane.ERROR_MESSAGE);
         }
         user.getTasksList().clear();
     }
@@ -47,8 +48,8 @@ public class TaskReaderWriter implements ITaskReaderWriter {
      * @return Прочитаний об'єкт класа User
      */
     @Override
-    public User readUserFromFile() {
-        User user;
+    public IUser readUserFromFile() {
+        IUser user;
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
         try {
             user = mapper.readValue(User.file, User.class);
