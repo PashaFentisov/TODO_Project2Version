@@ -24,7 +24,6 @@ public class ClassForFormForDeletingTasks implements IClassForFormForDeletingTas
 
     /**
      * Метод викликається після вибору в головному вікні опції: Додати таск.
-     * Зчитує user з файлу.
      * Встановлює своє вікно як поточне.
      * Задає дії для кнопок.
      * В listOfTasksToDelete додає список тасків з зчитаного user
@@ -33,10 +32,6 @@ public class ClassForFormForDeletingTasks implements IClassForFormForDeletingTas
      */
     @Override
     public void show(IUser user) {
-        try {
-            user.readUserFromFile();
-        } catch (Exception e) {
-        }
         listOfTasksToDelete.setListData(user.getTasksList().toArray());
         main.getMainFrame().setContentPane(MainPanel);
         MainPanel.setVisible(true);
@@ -47,15 +42,11 @@ public class ClassForFormForDeletingTasks implements IClassForFormForDeletingTas
     }
 
     /**
-     * Службовий метод, зчитує user з файлу і задає його список випадаючому списку в графічному інтерфейсі.
+     * Службовий метод, задає оновлений список випадаючому списку в графічному інтерфейсі.
      *
      * @param user Поточний об'єкт класа User
      */
     private void readUserMethod(IUser user) {
-        try {
-            user.readUserFromFile();
-        } catch (Exception e) {
-        }
         listOfTasksToDelete.setListData(user.getTasksList().toArray());
     }
 

@@ -30,7 +30,7 @@ public class ClassForFormForFillingListWithTasks implements IClassForFormForFill
 
     /**
      * Метод викликається після вибору в головному вікні опції: Видалити таск.
-     * Зчитує user з файлу.
+     * MonthComboBox - заповнюється значеннями від 1 до 12 (початкове вибране значення 1).
      * Встановлює своє вікно як поточне.
      * Задає дії для кнопок.
      * Викликає метод {@link #workingMethod()}
@@ -39,16 +39,15 @@ public class ClassForFormForFillingListWithTasks implements IClassForFormForFill
      */
     @Override
     public void show(IUser user) {
-        try {
-            user.readUserFromFile();
-        } catch (Exception e) {
-        }
         main.getMainFrame().setContentPane(MainPanel);
         MainPanel.setVisible(true);
         backButton.addActionListener((e) -> actionForBackButton(user));
         addTaskButton.addActionListener((e) -> actionForAddTaskButton(user));
         MonthComboBox.addActionListener((e) -> ActionWhenMonthIsChosen());
         addTaskButton.setBackground(Color.GREEN);
+        for (int i = 1; i <= 12; i++) {
+            MonthComboBox.addItem(i);
+        }
         workingMethod();
     }
 
@@ -67,14 +66,10 @@ public class ClassForFormForFillingListWithTasks implements IClassForFormForFill
     /**
      * Службовий метод для ініціалізації полей початковими значеннями.
      * TextFieldForTextOfTask - встановлюється як пусте текстове поле.
-     * MonthComboBox - заповнюється значеннями від 1 до 12 (початкове вибране значення 1).
      * DayComboBox - очищається від будь яких значень.
      */
     private void workingMethod() {
         TextFieldForTextOfTask.setText("");
-        for (int i = 1; i <= 12; i++) {
-            MonthComboBox.addItem(i);
-        }
         MonthComboBox.setSelectedIndex(0);
         DayComboBox.removeAllItems();
     }
@@ -118,15 +113,9 @@ public class ClassForFormForFillingListWithTasks implements IClassForFormForFill
 
     /**
      * Метод який спрацьовує після натиснення на кнопку back.
-     * Записує і зчитує об'єкт класа User з файлу.
      * Для MainPanel setVisible встановлюється як false і викликається метод {@link Main#showMainPanel()}
      */
     private void actionForBackButton(IUser user) {
-        user.writeUserToFile();
-        try {
-            user.readUserFromFile();
-        } catch (Exception e) {
-        }
         MainPanel.setVisible(false);
         main.showMainPanel();
     }

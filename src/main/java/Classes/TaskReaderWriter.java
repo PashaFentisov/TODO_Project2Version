@@ -39,7 +39,6 @@ public class TaskReaderWriter implements ITaskReaderWriter {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(new JFrame(), "File not found", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        user.getTasksList().clear();
     }
 
     /**

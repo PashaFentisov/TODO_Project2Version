@@ -4,7 +4,6 @@ import Interfaces.ITaskEditor;
 import Interfaces.ITaskReaderWriter;
 import Interfaces.ITaskShower;
 import Interfaces.IUser;
-import ServiceClasses.OwnReader;
 import TestClasses.Main;
 
 import java.io.File;
@@ -36,7 +35,7 @@ public class User implements IUser {
      */
     public synchronized static IUser getInstance() {
         if (user == null) {
-            user = new User(new TaskEditor(new OwnReader()), new TaskShower(), new TaskReaderWriter());
+            user = new User(new TaskEditor(), new TaskShower(), new TaskReaderWriter());
         }
         return user;
     }

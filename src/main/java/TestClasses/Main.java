@@ -4,9 +4,6 @@ import Classes.User;
 import FormsForInterface.ClassForFormForDeletingTasks;
 import FormsForInterface.ClassForFormForFillingListWithTasks;
 import FormsForInterface.ClassForFormForMakeTaskDone;
-import Interfaces.IClassForFormForDeletingTasks;
-import Interfaces.IClassForFormForFillingListWithTasks;
-import Interfaces.IClassForFormForMakeTaskDone;
 import Interfaces.IUser;
 
 import javax.swing.*;
@@ -17,14 +14,11 @@ import java.awt.event.WindowEvent;
 /**
  * @author Pasha Fentisov
  * @version 3.0
- * @since 29.19.22
+ * @since 31.12.22
  */
 
 public class Main extends WindowAdapter {
     private IUser user;
-    private IClassForFormForFillingListWithTasks classForFormForFillingListWithTasks = new ClassForFormForFillingListWithTasks(this);
-    private IClassForFormForMakeTaskDone classForFormForMakeTaskDone = new ClassForFormForMakeTaskDone(this);
-    private IClassForFormForDeletingTasks classForFormForDeletingTasks = new ClassForFormForDeletingTasks(this);
     private JPanel MainPanel;
     private JRadioButton sixthOption;
     private JRadioButton firstOption;
@@ -49,6 +43,7 @@ public class Main extends WindowAdapter {
      */
     public void windowClosing(WindowEvent e) {
         int a = JOptionPane.showConfirmDialog(mainFrame, "Don`t forget to save changes!\n                   Close?", "Confirm closing", 0);
+        user.writeUserToFile();
         if (a == JOptionPane.YES_OPTION) {
             mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         } else if (a == JOptionPane.NO_OPTION) {
@@ -62,6 +57,9 @@ public class Main extends WindowAdapter {
     public Main() {
         apply.setBackground(Color.lightGray);
         user = User.getInstance();
+        try{
+            user.readUserFromFile();
+        }catch(Exception e){}
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension d = toolkit.getScreenSize();
         mainFrame = new JFrame("TODO Holder");
@@ -78,7 +76,10 @@ public class Main extends WindowAdapter {
         group.add(fifthOption);
         group.add(sixthOption);
         apply.addActionListener((e) -> actionForButtonApply(this));
-        exitButton.addActionListener((r) -> System.exit(0));
+        exitButton.addActionListener((r) -> {
+            user.writeUserToFile();
+            System.exit(0);
+        });
     }
 
     /**
@@ -99,17 +100,17 @@ public class Main extends WindowAdapter {
         apply.setBackground(Color.lightGray);
         MainPanel.setVisible(false);
         if (firstOption.isSelected()) {
-            classForFormForFillingListWithTasks.show(user);
+            new ClassForFormForFillingListWithTasks(this).show(user);
         } else if (secondOption.isSelected()) {
             user.showTasksInFile(main);
         } else if (thirdOption.isSelected()) {
-            classForFormForMakeTaskDone.show(user);
+            new ClassForFormForMakeTaskDone(this).show(user);
         } else if (fourthOption.isSelected()) {
             user.showDoneTasks(main);
         } else if (fifthOption.isSelected()) {
             user.showTasksInProgress(main);
         } else if (sixthOption.isSelected()) {
-            classForFormForDeletingTasks.show(user);
+            new ClassForFormForDeletingTasks(this).show(user);
         } else {
             MainPanel.setVisible(true);
             apply.setBackground(Color.red);
